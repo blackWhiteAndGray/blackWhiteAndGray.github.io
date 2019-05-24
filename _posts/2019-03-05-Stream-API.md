@@ -3,7 +3,7 @@ layout:     post
 title:      Stream API
 subtitle:   Java 8 新特性 Stream API
 date:       2019-03-05
-author:     coldpang
+author:     黑白灰
 header-img: img/post-bg-ios9-web.jpg
 catalog: true
 tags:
@@ -13,9 +13,6 @@ tags:
     - Stream
 ---
 # 前言
-
->在[上篇文章](http://coldpang.top/2019/03/02/lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F/)中介绍了**lambda表达式**的基础知识,接下来我们来介绍**Stream API**中的用法。
-
 
 ![Stream API思维导图](https://ws3.sinaimg.cn/large/006tKfTcgy1g0sb8g0ahjj30sy0a8gnd.jpg)
 # 什么是 Stream
