@@ -1,66 +1,67 @@
 ---
-layout:     post
-title:      Stream API
-subtitle:   Java 8 新特性 Stream API
-date:       2019-03-05
-author:     黑白灰
+layout: post
+title: Stream API
+subtitle: Java 8 新特性 Stream API
+date: 2019-03-05
+author: Ricardo.PangJ
 header-img: img/post-bg-ios9-web.jpg
 catalog: true
 tags:
-    - Java 8
-    - 新特性
-    - 函数式编程
-    - Stream
+  - Java 8
+  - 新特性
+  - 函数式编程
+  - Stream
 ---
+
 # 前言
 
 ![Stream API思维导图](https://ws3.sinaimg.cn/large/006tKfTcgy1g0sb8g0ahjj30sy0a8gnd.jpg)
-# 什么是 Stream
 
+# 什么是 Stream
 
 #### 基本定义
 
 Java 8 中的 Stream 是对集合对象功能的增强，它专注于对集合对象进行各种便利、高效的集合操作或者大批量数据操作。
+
 #### 内部遍历与外部遍历
 
 内部遍历和外部遍历（stream 和 iterator）： 外部遍历会导致遍历的逻辑和处理数据的逻辑混淆.
 
-
 #### Stream 实质
 
 - **虽然 Stream 表面上允许改编数据或者获取数据，但是实质上**
-     1. Stream 不会存储数据。
-     2. Stream 不会改变原数据。
-     3. 单向、不可重复使用。
-     4. Stream 的部分操作是延迟的。
-     5. Stream 可以方便的进行并行操作
-     6. 总结：可以简单理解为 Stream 是一种高级的 Iterator， 这种 Iterator 迭代器提供了更多关于其包含的数据和操作功能.
 
-     ``` java
-     @Test
-	    public void test() {
-	        // 外不循环：循环的代码和业务处理的代码混淆
-	        Integer[] integers = new Integer[] {1, 2, 3, 4, 5, 6, 7, 8};
-	        List<Integer> ret = new ArrayList<>();
-	        for (Integer i: integers) {
-	            if (i > 5) ret.add(i);
-	        }
-	        System.out.println(ret);
-		
-	        // Stream：内部循环，代码里面不需要写循环的操作
-	        // 1. Stream 不会存储数据；
-	        // 2. Stream 不会修改以前的数据；
-	        // 3. Stream 是单选，不可重复使用；
-	        // 4. Steam 的部分操作是延迟的；
-	        //    调用一个方法，骂死执行，我们叫做迫切执行方法，如果调用了一个方法，并不会立刻执行，叫做延迟执行方法;
-	        //    1. 只要 Stream 的方法返回的是 Stream， 那么这些方法就是延迟执行的方法；
-	        //    2. 延迟执行方法一定要等到一个迫切执行方法执行的时候，才会执行（在 Stream 里面，返回的不是一个 Stream 基本都是迫切执行方法）
-	        Stream.of(integers).filter(x -> x > 5).collect(Collectors.toList())
-	                .forEach(System.out::println);
-	    }
-     ```
+  1.  Stream 不会存储数据。
+  2.  Stream 不会改变原数据。
+  3.  单向、不可重复使用。
+  4.  Stream 的部分操作是延迟的。
+  5.  Stream 可以方便的进行并行操作
+  6.  总结：可以简单理解为 Stream 是一种高级的 Iterator， 这种 Iterator 迭代器提供了更多关于其包含的数据和操作功能.
 
-     
+  ```java
+  @Test
+   public void test() {
+       // 外不循环：循环的代码和业务处理的代码混淆
+       Integer[] integers = new Integer[] {1, 2, 3, 4, 5, 6, 7, 8};
+       List<Integer> ret = new ArrayList<>();
+       for (Integer i: integers) {
+           if (i > 5) ret.add(i);
+       }
+       System.out.println(ret);
+
+       // Stream：内部循环，代码里面不需要写循环的操作
+       // 1. Stream 不会存储数据；
+       // 2. Stream 不会修改以前的数据；
+       // 3. Stream 是单选，不可重复使用；
+       // 4. Steam 的部分操作是延迟的；
+       //    调用一个方法，骂死执行，我们叫做迫切执行方法，如果调用了一个方法，并不会立刻执行，叫做延迟执行方法;
+       //    1. 只要 Stream 的方法返回的是 Stream， 那么这些方法就是延迟执行的方法；
+       //    2. 延迟执行方法一定要等到一个迫切执行方法执行的时候，才会执行（在 Stream 里面，返回的不是一个 Stream 基本都是迫切执行方法）
+       Stream.of(integers).filter(x -> x > 5).collect(Collectors.toList())
+               .forEach(System.out::println);
+   }
+  ```
+
 # 创建 Stream
 
 #### 把数组变成 Stream -> Arrays.stream()
@@ -100,6 +101,7 @@ public void testArrayStream2() {
 ```
 
 #### 集合类型 -> Stream
+
 ```java
 /**
  * 集合类型 -> Stream
@@ -160,20 +162,18 @@ public void testUnlimitStream2() {
 }
 ```
 
-
 # Java 8 提供的常见的函数式接口
 
-- **上面介绍完得到 Stream 的几种方法后，下边总结一下Java API 为我们提供的函数式接口**
-     1. 谓词类接口：Predicate; DoublePredicate; IntPredicate; LongPredicate (传入一个参数，返回一个boolean，一般用在判断上面， x -> x > 3,典型的 filter 方法)。
-     2. 单元（一元）操作接口： UnaryOperator; LongUnaryOperator; DoubleUnaryOperator; IntUnaryOperator （特殊的function，要求传入的类型和返回的类型一致， x -> fn(x)， 典型操作：iterate）。
-     3. 二元操作接口： BinaryOperator; LongBinaryOperator; IntBinaryOperator; DoubleBinaryOperator （传入两个相同类型的参数，返回一个值，这个值得类型和参数相同，适用于两个相同类型数据的合并）。
-     4. 单元函数接口： Function; IntFunction; DoubleFunction; LongFunction (传入一个参数，返回一个值，允许参数的类型和返回的类型不同；一般用作转换， x -> fn(x)， 典型的使用方法map)。
-     5. 二元函数接口：BiFunction （传入A,B两个参数，返回C值，A,B,C三个值类型可以不相同，一般用作合并， (x, y) -> fn(x, y)）。
-     6. 消费者接口： Consumer; ConsumerLong; ConsumerInt; ConsumerDouble （传入一个值，没有返回值；System.out::println）。
-     7. 二元消费接口: BiConsumer (传入A,B两个参数，不需要有返回值；典型使用，把一个元素添加到一个中间结果集中； (x, y) -> fn(x, y))。
-     8. 工厂接口： Supplier; SupplierInt; SupplierDouble; SupplierLong (不需要参数，返回一个值，典型使用generate)。
+- **上面介绍完得到 Stream 的几种方法后，下边总结一下 Java API 为我们提供的函数式接口**
+  1.  谓词类接口：Predicate; DoublePredicate; IntPredicate; LongPredicate (传入一个参数，返回一个 boolean，一般用在判断上面， x -> x > 3,典型的 filter 方法)。
+  2.  单元（一元）操作接口： UnaryOperator; LongUnaryOperator; DoubleUnaryOperator; IntUnaryOperator （特殊的 function，要求传入的类型和返回的类型一致， x -> fn(x)， 典型操作：iterate）。
+  3.  二元操作接口： BinaryOperator; LongBinaryOperator; IntBinaryOperator; DoubleBinaryOperator （传入两个相同类型的参数，返回一个值，这个值得类型和参数相同，适用于两个相同类型数据的合并）。
+  4.  单元函数接口： Function; IntFunction; DoubleFunction; LongFunction (传入一个参数，返回一个值，允许参数的类型和返回的类型不同；一般用作转换， x -> fn(x)， 典型的使用方法 map)。
+  5.  二元函数接口：BiFunction （传入 A,B 两个参数，返回 C 值，A,B,C 三个值类型可以不相同，一般用作合并， (x, y) -> fn(x, y)）。
+  6.  消费者接口： Consumer; ConsumerLong; ConsumerInt; ConsumerDouble （传入一个值，没有返回值；System.out::println）。
+  7.  二元消费接口: BiConsumer (传入 A,B 两个参数，不需要有返回值；典型使用，把一个元素添加到一个中间结果集中； (x, y) -> fn(x, y))。
+  8.  工厂接口： Supplier; SupplierInt; SupplierDouble; SupplierLong (不需要参数，返回一个值，典型使用 generate)。
 
-     
 # Stream 元素和 Stream 操作
 
 #### 过滤元素（filter，distinct）
@@ -314,7 +314,4 @@ public void testSorted2() {
 }
 ```
 
-
-
-
->未完待续
+> 未完待续
