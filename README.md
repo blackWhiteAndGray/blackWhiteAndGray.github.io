@@ -1,6 +1,8 @@
 ### 说明
 RicardoPang的个人博客
 
+博客地址 [博客地址](https://blackwhiteandgray.github.io)
+
 ### 撰写博文
 
 要发表的文章一般以 **Markdown** 的格式放在这里`_posts/`，你只要看看这篇模板里的文章你就立刻明白该如何设置。
