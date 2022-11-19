@@ -22,19 +22,16 @@ tags:
   "program": "E:/cli.js"
 }
 ```
+### 1.2 保存时自动格式化
 
-- VSCODE
+File->Preferences->User Settings
 
-  ### 1.2 保存时自动格式化
-
-  File->Preferences->User Settings
-
-  ```json
-  {
-    "editor.formatOnType": false,
-    "editor.formatOnSave": false
-  }
-  ```
+```json
+{
+"editor.formatOnType": false,
+"editor.formatOnSave": false
+}
+```
 
 ### 1.3 语言改为英文
 
