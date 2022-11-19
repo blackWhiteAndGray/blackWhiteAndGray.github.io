@@ -1,18 +1,18 @@
 # Site settings
-title: Ricardo.PangJ
-SEOTitle: Ricardo.PangJ
+title: RicardoPang
+SEOTitle: RicardoPang
 header-img: img/post-bg-coffee.jpeg
-email: Ricardo.PangJ@gmail.com
+email: pangfeng22@gmail.com
 description: "Every failure is leading towards success."
-keyword: "Ricardo.PangJ"
+keyword: "RicardoPang"
 url: "https://blackwhiteandgray.github.io/" # your host, for absolute URL
 baseurl: "" # for example, '/blog' if your blog hosted on 'host/blog'
 github_repo: "https://blackwhiteandgray.github.io/" # you code repository
 
 # Sidebar settings
 sidebar: true # whether or not using Sidebar.
-sidebar-about-description: "A software engineer."
-sidebar-avatar: /img/love_letter.png # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-about-description: "Software Engineer"
+sidebar-avatar: /img/RicardoPang.png # use absolute URL, seeing it's used in both `/` and `/about/`
 
 # SNS settings
 RSS: false

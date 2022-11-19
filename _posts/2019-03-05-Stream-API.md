@@ -3,7 +3,7 @@ layout: post
 title: Stream API
 subtitle: Java 8 新特性 Stream API
 date: 2019-03-05
-author: Ricardo.PangJ
+author: RicardoPang
 header-img: img/post-bg-ios9-web.jpg
 catalog: true
 tags:
