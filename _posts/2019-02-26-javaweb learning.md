@@ -1,195 +1,275 @@
 ---
-layout: post
-title: "Java 后端自学之路[转载]"
-categories: Thinking
-tags: experience
-author: zch
+layout:     post
+title:      VSCODE
+date:       2022-11-19
+author:     BY RicardoPang
+header-img: img/post-bg-ios9-web.jpg
+catalog: 	 true
+tags:
+    - 前端
+    - VSCODE
 ---
 
-* content
-{:toc}
-最近有些网友问我如何自学 Java 后端，还有些是想从别的方向想转过来，但都不太了解 Java 后端究竟需要学什么，究竟要从哪里学起，哪些是主流的 Java 后端技术等等，导致想学，但又很迷茫，不知从何下手。我就以过来人的经历，写在这篇博客里，不一定都对，但都是我根据自己的经历总结出来的，供你们的参考。
+## 1. VSCODE
 
+### 1.1 使用node启动调试
 
+```json
+{
+  "type": "node",
+  "request": "launch",
+  "name": "启动程序",
+  "program": "E:/cli.js"
+}
+```
 
+- VSCODE
 
+  ### 1.2 保存时自动格式化
 
+  File->Preferences->User Settings
 
+  ```json
+  {
+    "editor.formatOnType": false,
+    "editor.formatOnSave": false
+  }
+  ```
 
+### 1.3 语言改为英文
 
+快捷键Command+Shift+P（Win下为Control）打开命令行工具,输入设置语言，会打开一个locale.json的文件，如下面所示
 
+{ // 定义 VSCode 的显示语言。 // 请参阅 http://go.microsoft.com/fwlink/?LinkId=761051，了解支持的语言列表。 // 要更改值需要重启 VSCode。 "locale":"zh-CN" } 将locale的值改为en-US之后重启VSCode就恢复到英文版本的了!
 
+### 1.4 快捷键
 
-![Java Back-end](https://raw.githubusercontent.com/objcoding/objcoding.github.io/master/images/javaweblearning.png)
+- 列选择 alt+shift+左键
+- 多点编辑 按alt点击左键
+- 格式化 Alt+shift+f
 
+### 1.5 单行注释
 
+单行注释
 
+```js
+//.+?(?=["$\r\n]
+```
 
+### 1.6 多行注释
 
-## Java 基础
+```js
+\/\*([\w\W]+?)\*\/
+```
 
-Java 是一门纯粹的面向对象的编程语言，所以除了基础语法之外，必须得弄懂它的 oop 特性：封装、继承、多态。此外还有泛型、反射的特性，很多框架的技术都依赖它，比如 Spring 核心的 Ioc 和 AOP，都用到了反射，而且 Java 自身的动态代理也是利用反射实现的，这里我特意写了一篇 [Java动态代理原理分析](http://objcoding.com/2017/08/16/Java-Dynamic-proxy/)。此外还有 Java 一些标准库也是非常常见，比如集合、I/O、并发，几乎在 Web 开发中无处不在，也是面试经常会被问到的，所以在自学 Java 后端之前，不妨先打好这些基础，另外还有 Java8 的一些新特性，也要重点关注，比如 Lambda 表达式、集合的 Stream 流操作、全新的 Date API 等等，关于新特性，我也写了几篇关于这方面的博客，请自行找吧，就不贴出来了。
+### 1.7 空行
 
-关于书籍推荐，我是不建议初学者一开始就拿着「Java 编程思想」啃的，因为当初我就是那个当天下午决定自学 Java，晚上就抱着这本书啃的人，说实话，我当时真的不懂它在说啥，因为我没有一点的面向对象语言编程的基础，而这本书又写得太博大精深了，在当时的我来说，完全是天书，但是我认为它仍然是 Java 界的圣经，每读一次都有所收获。我在这里推荐你们一开始先看「Java 核心技术」，这本书讲得比较通俗易懂，初学者比较能接受。
+```js
+^\s*(?=\r?$)\n
+```
 
-关于视频推荐，我当初就是听某客的毕向东老师讲的  Java 基础教程，毕老师讲的实在是太生动有趣了，不知不觉把我带进 Java 的坑里无法自拔，有时候我会听他视频时笑出声来，也许是我那段自学阶段最有趣的时刻了。
+### 1.8 全部替换
 
+```js
+((\/\*([\w\W]+?)\*\/)|(\/\/.+?(?=["$\r\n]))|(^\s*(?=\r?$)\n))
+```
 
+![emptylineregexp.png](http://img.zhufengpeixun.cn/emptylineregexp.png)
 
-## 数据库
+| 表达式      | 含义                                                         |
+| :---------- | :----------------------------------------------------------- |
+| (?:)        | 表示非捕获分组，和捕获分组唯一的区别在于，非捕获分组匹配的值不会保存起来 |
+| (?=pattern) | 正向肯定查找(前瞻),后面必须跟着什么                          |
 
-关于 sql 方面：[SQL 教程](http://www.runoob.com/sql/sql-tutorial.html)、[MySQL 教程](http://www.runoob.com/mysql/mysql-tutorial.html) 
+## 2.MAC
 
-我是了解了一些基础语法之后，就直接跟着视频的老师做一些表操作实战练习了，比如单表查询、多表查询等。我建议学 sql 切勿眼高手低，需多加练习，不要只看懂了就行，因为工作中写得一手简练的 sql 是非常重要的。在这里我说下我在项目一直秉承着 sql 语句是能避免多表查询就避免多表查询，能够分开多条语句就分开多条语句，因为这里涉及到多表查询性能和数据库扩展的问题。
+### 2.1 杀死进程
 
-关于 JDBC 方面：[JDBC 教程](http://www.yiibai.com/jdbc/)、 [JDBC 获取连接对象源码分析](http://objcoding.com/2017/07/03/JDBC/)
+查看进程占用
 
-你需要弄懂  JDBC API 的用法，其实它只是一组规范接口，所有数据库驱动只要实现了 JDBC，那么我们就可以通过标准的 API 调用相应的驱动，完全不用知道驱动是怎么实现的，这就是面向接口编程的好处。而且对于 JDBC 我是直接看视频去理解的，跟着视频做了一个基于  Apache Dbutils 工具做了一个具有事务性的小工具，我特意用思维导图总结了一下：
+```javascript
+lsof -i tcp:8080 
+```
 
-![database](https://raw.githubusercontent.com/objcoding/objcoding.github.io/master/images/database.png)
+该命令会显示占用8080端口的进程，有其 pid ,可以通过pid关掉该进程
 
-jdbc-utils源码地址：[jdbc-utils](https://github.com/objcoding/jdbc-utils)
+```javascript
+kill pid
+```
 
+### 2.2 查看端口占用
 
+#### 2.2.1 lsof
 
-## Web 基础
+```
+lsof -i:port
+lsof -i:8080
+```
 
-曾经开源中国创始人红薯写了一篇文章「[初学 Java Web 开发，请远离各种框架，从 Servlet 开发](https://www.oschina.net/question/12_52027)」，我觉得他说的太对了，在如今 Java 开发中，很多开发者只知道怎么使用框架，但根本不懂 Web 的一些知识点，其实框架很多，但都基本是一个套路，所以在你学习任何框架前，请把 Web 基础打好，把 Web 基础打好了，看框架真的是如鱼得水。
+#### 2.2.2 netstat
 
-关于 Http 协议，这篇文章就写得很清楚：[Http协议](https://www.cnblogs.com/ranyonsue/p/5984001.html)
+```
+netstat -antp | grep port
+netstat -antp | grep 8080
+```
+
+## 3.安装需要编译包
+
+### 3.1 安装sharp
+
+- [sharp](https://www.iqi360.com/p/sharp-cn)是一个高性能的nodejs图像处理库
+
+- [安装sharp](https://www.iqi360.com/p/sharp-cn/docs/5f8b012a5a726a40e3f0f02e)
+
+- [安装过程中遇到sharp安装慢](https://www.cnblogs.com/zzsdream/p/13391731.html)
+
+- [sharp-libvips](https://github.com/lovell/sharp-libvips/releases/tag/v8.10.5)
+
+- ```js
+  npm config set sharp_binary_host "https://npm.taobao.org/mirrors/sharp"
+  npm config set sharp_libvips_binary_host "https://npm.taobao.org/mirrors/sharp-libvips"
+  npm install sharp
+  ```
+
+  ### 3.2 编译
+
+- [node-gyp#on-windows](https://github.com/nodejs/node-gyp#on-windows)
+
+- [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools)
+
+- [python](https://www.python.org/)
+
+### 3.2 cache目录
+
+- NPM会把所有下载的包保存，放在用户文件夹下面，在我的windows10机器上是保存在C:\Users\Administrator\AppData\Roaming\npm-cache下面
+- NPM install之后会计算每个包的sha1值，然后将包与他的sha1值关联保存在package.lock.json里面
+- 下次NPM install的时候会根据package.lock.json里面保存的sha1值去文件夹C:\Users\Administrator\AppData\Roaming\npm-cache里面寻找包文件，如果存在，就不用再次从网上下载安装包
+- NPM cache verify 重新计算C:\Users\Administrator\AppData\Roaming\npm-cache下的文件是否与sha1值匹配，如果不匹配可能删除？
+- NPM cache clean --force 这个命令从C:\Users\Administrator\AppData\Roaming\npm-cache下删除所有缓存文件
+- NPM不同版本算出来的sha1貌似不完全一样，所以直接用别人的package.lock.json会报sha1不匹配的error
+- `yarn cache list` 查看缓存的包
+- `yarn cache dir` 查询cache缓存文件目录路径
+- `yarn cache clean` yarn 清除缓存
+- `npm cache clean --force` npm清除缓存
+
+## 4.Yarn
+
+| 命令                                                      | 说明                                                         |
+| :-------------------------------------------------------- | :----------------------------------------------------------- |
+| yarn -v                                                   | 查看yarn版本                                                 |
+| yarn config list                                          | 查看yarn的所有配置                                           |
+| yarn config set registry https://registry.npm.taobao.org/ | 修改yarn的源镜像为淘宝源                                     |
+| yarn config set global-folder "D:\RTE\Yarn\global"        | 修改全局安装目录, 先创建好目录(global), 我放在了Yarn安装目录下(D:\RTE\Yarn\global) |
+| yarn config set prefix "D:\RTE\Yarn\global\"              | 修改全局安装目录的bin目录位置                                |
+| yarn config set cache-folder "D:\RTE\Yarn\cache"          | 修改全局缓存目录, 先创建好目录(cache), 和global放在同一层目录下 |
+| yarn config list                                          | 查看所有配置                                                 |
+| yarn global bin                                           | 查看当前yarn的bin的位置                                      |
+| yarn global dir                                           | 查看当前yarn的全局安装位置                                   |
+
+## 5.lerna
+
+| 命令            | 功能                                                      |
+| :-------------- | :-------------------------------------------------------- |
+| lerna bootstrap | 安装依赖                                                  |
+| lerna clean     | 删除各个包下的node_modules                                |
+| lerna init      | 创建新的lerna库                                           |
+| lerna list      | 查看本地包列表                                            |
+| lerna changed   | 显示自上次release tag以来有修改的包， 选项通 list         |
+| lerna diff      | 显示自上次release tag以来有修改的包的差异， 执行 git diff |
+| lerna exec      | 在每个包目录下执行任意命令                                |
+| lerna run       | 执行每个包package.json中的脚本命令                        |
+| lerna add       | 添加一个包的版本为各个包的依赖                            |
+| lerna import    | 引入package                                               |
+| lerna link      | 链接互相引用的库                                          |
+| lerna create    | 新建package                                               |
+| lerna publish   | 发布                                                      |
 
-关于 Web 基础这方面数据推荐，我当时是看的是「Tomcat 与 Java Web 开发技术详解」，很详细地讲解了整个 Java Web 开发的技术知识点，但现在看来，我觉得里面讲的有一些技术确实有点老旧了，不过可以了解一下 Java Web 开发的历史也是不错的。所以在 Web 基础这方面我都是看某客的崔老师讲的「超全面 Java Web 视频教程」，讲得很详细很生动，还有实战项目！
+## 6.yarn
 
-关于 JSP，你只要了解它其实就是一个 Servlet 就行了，关于它的一些标签用法，我认为可以直接忽略，因为现在互联网几乎没哪间公司还用 JSP，除了一些老旧的项目。现在都是流行前后端分离，单页应用，后端只做 API 接口的时代了，所以时间宝贵，把这些时间重点放在 Servlet 规范上面吧。
+| 作用                        | 命令                                                         |
+| :-------------------------- | :----------------------------------------------------------- |
+| 查看工作空间信息            | yarn workspaces info                                         |
+| 给根空间添加依赖            | yarn add chalk cross-spawn fs-extra --ignore-workspace-root-check |
+| 给某个项目添加依赖          | yarn workspace create-react-app3 add commander               |
+| 删除所有的 node_modules     | lerna clean 等于 yarn workspaces run clean                   |
+| 安装和link                  | yarn install 等于 lerna bootstrap --npm-client yarn --use-workspaces |
+| 重新获取所有的 node_modules | yarn install --force                                         |
+| 查看缓存目录                | yarn cache dir                                               |
+| 清除本地缓存                | yarn cache clean                                             |
 
-关于 Tomcat，它是一个 Web 容器，我们写的后端项目都要部署到Web容器才能运行，它其实是一个遵循 Http，通过 Socket 通信与客户端进行交互的服务端程序：[Tomcat结构及处理请求过程](http://objcoding.com/2017/06/12/Tomcat-structure-and-processing-request-process/)
+## 7.调试命令
 
+.vscode\launch.json
 
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "vue-cli",
+            "cwd":"${workspaceFolder}",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "create"
+            ],
+            "port":9229,
+            "autoAttachChildProcesses": true,
+            "stopOnEntry": true,
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        }
+    ]
+}
+```
 
-## Web 主流框架
+## 8.配置alias
 
-Java Web 框架多如牛毛，等你有一定经验了，你也可以写一个 Web 框架，网上很多说 Spring、Struts2、Hibernate 是 Java 三架马车，我只想说，那是很久远的事情了，我严重不推荐 Struts2、Hibernate，相信我，一开始只需要上手 Spring、SpringMVC、Mybatis 就可以了，特别是 Spring 框架，其实 Spring 家族的框架都是很不错的。
+Create React App无eject配置 打包成相对路径配置 在package.json中增加：
 
-但是提醒一点就是，千万不要沉迷于各种框架不能自拔，以会多种用法而沾沾自喜，导致知其然而不知其所以然。
+```json
+"homepage": "."
+```
 
-Spring其核心思想就是 IOC 和 AOP：
+## 9.解决vscode卡顿问题
 
-[谈谈对 Spring IOC 的理解](http://blog.csdn.net/qq_22654611/article/details/52606960/)
+vscode在任务管理器观察CPU占用率100% 解决方案 VScode中文件->首选项->设置 ，之后搜索"search.followSymlinks":true,然后设置为false
 
-[Spring 面向切面编程](http://objcoding.com/2017/08/25/Spring-AOP/)
+![exclude](https://static.zhufengpeixun.com/20210805195616161_1637830390170.png)
 
-SpringMVC 它的思想是全部请求统一用一个 Servlet 去做请求转发与控制，这个 Servlet 叫 DispatcherServlet：
+## 10. window编译C++
 
-[SpringMVC 初始化过程](http://objcoding.com/2017/06/14/SpringMVC-initialization-process/)
+- [node-gyp](https://github.com/nodejs/node-gyp)
+- [node-sass](https://www.npmjs.com/package/node-sass)
 
-[SpringMVC 处理请求过程](http://objcoding.com/2017/06/15/SpringMVC-processing-request-process/)
+### 10.1 Python executable python2 in the PATH
 
-Mybatis 它可实现动态拼装 sql，避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集：
+- npm install 报错 check python checking for Python executable python2 in the PATH
+- 删除 node_modules 文件夹
+- 在 Terminal 运行 `npm install --global windows-build-tools --save`
+- 再安装 `npm install node-sass --save`
+- 到这里，错误应该就已经解决了，收到了 `gyp info ok` 的提示！
+- 如果遇到 `Node Sass could not find a binding for your current environment`，再运行 `npm rebuild node-sass` 就可以了
 
-[mybatis 入门教程](http://www.mybatis.org/mybatis-3/zh/index.html)
+### 10.2 getaddrinfo ENOENT raw.githubusercontent.com
 
-[Mybatis 深入浅出系列](http://www.cnblogs.com/dongying/tag/Mybatis%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E7%B3%BB%E5%88%97/)
+- 点开网址 https://www.ipaddress.com/ ，输入`raw.githubusercontent.com`，点击查询：
+- 修改hosts文件 `C:\Windows\System32\drivers\etc\hosts` `ip raw.githubusercontent.com`
+- npm install
 
+### 10.3 npm ERR! gyp verb which failed Error: not found: python2
 
+- npm config set python `C:/Python27/python.exe`
 
-## Web 框架进阶
+### 10.4
 
-使用了 SSM 框架后，你会觉得框架也不过这么回事，如果你对 Spring 有过大概了解，你也会产生想写一个「山寨版」Spring 的心思了，一个轻量级 Web 框架主要具备以下功能：
+npm ERR! gyp ERR! stack Error: spawn C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\15.0\Bin\MSBuild.exe ENOENT
 
-1. 可读取用户自定义配置文件，并以此来初始化框架；
-2. 具备 Bean 容器，管理项目的类的对象生命周期；
-3. 具备依赖注入，降低类之间的耦合性；
-4. 具备 AOP 功能，使项目可进行横向编程，可不改变原有代码的情况增加业务逻辑；
-5. 具备 MVC 框架模式。
+npm cache clean --force
 
-其实除了 SSM 之外，Web 框架可谓是百家齐放，其中以 Spring 全家桶最为耀眼，在这里我极力推荐两个 Spring 家族框架：SpringBoot 和 SpringCloud。
+C:\Users\zhangrenyang\AppData\Roaming\npm\node_modules\node-gyp\gyp\pylib\gyp\MSVSVersion.py
 
-SpringBoot 弥补了 Spring 配置上的缺点，再也不用为繁杂的 xml 费劲精力了，堪称是 Java 后端开发的颠覆者，推荐书籍「Java EE 开发的颠覆者：SpringBoot实战」
-
-[SpringBoot 构建 web 项目](http://objcoding.com/2017/05/03/SpringBoot/)
-
-[SpringBoot 自动化配置源码分析](http://objcoding.com/2018/01/30/The-principle-of-Spring-Boot-automation-configuration/)
-
-[自定义 SpringBoot Starter](http://objcoding.com/2018/02/02/Costom-SpringBoot-Starter/)
-
-[spring-boot-starter-tutorial](https://github.com/objcoding/spring-boot-starter-tutorial)
-
-SpringCloud 是一个微服务架构，能够将项目按照业务分成一个个微服务，每个微服务都可独立部署，服务之间互相协调。当一个项目越来越大时，随之而来的是越来越难以维护，此时将项目拆分成若干个微服务、单独维护、单独部署，也可以降低项目不同业务间的耦合度。推荐书籍「Spring Cloud 与 Docker 微服务架构实战」，这本书将 Docker 与微服务完美地结合在一起，堪称完美！
-
-[Spring Cloud 中文官网](https://springcloud.cc/)
-
-[史上最简单的 Spring Cloud 教程](http://blog.csdn.net/column/details/15197.html)
-
-我写的有关于 Spring Cloud 的博客：
-
-[SpringCloud微服务架构之服务注册与发现](http://objcoding.com/2017/05/07/SpringCloud(1)/)
-
-[SpringCloud微服务架构之服务消费者](http://objcoding.com/2017/05/10/SpringCloud(2)/)
-
-[SpringCloud微服务架构之断路器](http://objcoding.com/2017/05/15/SpringCloud(3)/)
-
-[SpringCloud微服务架构之服务网关](http://objcoding.com/2017/05/20/SpringCloud(4)/)
-
-
-
-
-## 其它技术
-
-Redis：一个高性能的 key-value 数据库，当有并发量很高的请求时，将数据缓存在 Redis 中，将提高服务器的响应性能，大大减轻数据库的压力。
-
-[redis 中文官网](http://www.redis.cn/)
-
-[redis 教程](http://www.runoob.com/redis/redis-tutorial.html)
-
-Git：世界上最先进的分布式版本控制系统，建议所有初学者从命令行开始使用 Git！
-
-***关注 stormzhang 公众号「googdev」，回复「github」，即可免费获取一份 GitHub 教程电子书，我觉得写得很不错。***
-
-[Git 官网](https://git-scm.com/)
-
-[最全 Git 教程](https://git-scm.com/book/zh/v2)
-
-[Git 的一些常用命令](http://objcoding.com/2017/08/12/Git/)
-
-Maven：一个用于构建项目的工具，将项目间的依赖通过 xml 完美地组织到一起，可通过编译插件将项目编译成字节码文件。还有类似的 Gradle 也是不错的选择。
-
-[maven 的 pom.xml 文件详解](http://www.cnblogs.com/hafiz/p/5360195.html)
-
-Linux：至少要求常用的命令会用，能够在 linux 环境下部署项目。
-
-[Linux 命令大全](http://man.linuxde.net/)
-
-[最全的 SSH 连接远程终端教程](http://objcoding.com/2017/10/31/The-most-complete-SSH-connection-remote-terminal-tutorial/)
-
-Docker：简直是项目部署神器啊，来不及解释了，看我 Docker 系列博客，开启 Docker 之旅吧！推荐书籍「Docker 技术入门与实战」，中国首部 Docker 著作！
-
-[Docker 实战（一）](http://objcoding.com/2017/12/01/Docker(1)/)
-
-[Docker 实战（二）](http://objcoding.com/2017/12/07/Docker(2)/)
-
-[Docker 实战（三）](http://objcoding.com/2018/02/06/Docker(3)/)
-
-[docker-deploy-tutorial](https://github.com/objcoding/docker-deploy-tutorial)
-
-
-
-
-## 开发工具
-
-工欲善其事，必先利其器，以下是我推荐的一些开发工具：
-
-Intellij IDEA：Java 开发最好的 IDE，这个是公认的，我一开始是用 Eclipse 的，后来用了 Intellij IDEA，才发现 Eclipse 就是一坨屎，所以我以过来人劝你们不要使用 Eclipse，直接 Intellij IDEA！
-
-[IntelliJ IDEA 使用教程](http://www.phperz.com/special/83.html)
-
-Iterm2：macOS 最好用的终端！
-
-[Iterm2 使用指南](http://wdxtub.com/2016/03/20/iterm2-guide/)
-
-Chrome：人生苦短，请用 Chrome，来不及解释了，快上车！
-
-Postman：很好用的一个接口调试工具。
-
-[Postman 官网](https://www.getpostman.com/)
-
-
+npm audit fix

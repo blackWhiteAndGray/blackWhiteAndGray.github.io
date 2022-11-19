@@ -1,7 +1,6 @@
 ### 说明
-RicardoPang的个人博客
 
-博客地址 [博客地址](https://blackwhiteandgray.github.io)
+RicardoPang的个人博客 [博客地址](https://blackwhiteandgray.github.io)
 
 ### 撰写博文
 
