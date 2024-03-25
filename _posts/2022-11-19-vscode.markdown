@@ -1,272 +1,297 @@
----
-layout:     post
-title:      VSCODE
-date:       2022-11-19
-author:     BY RicardoPang
-header-img: img/post-bg-ios9-web.jpg
-catalog: 	 true
-tags:
-    - 前端
-    - VSCODE
----
+# 项目搭建规范
 
-## 1. VSCODE
+## 一. 代码规范
 
-### 1.1 使用node启动调试
+### 1.1. 集成 editorconfig 配置
+
+EditorConfig 有助于为不同 IDE 编辑器上处理同一项目的多个开发人员维护一致的编码风格。
+
+```yaml
+# http://editorconfig.org
+
+root = true
+
+[*] # 表示所有文件适用
+charset = utf-8 # 设置文件字符集为 utf-8
+indent_style = space # 缩进风格（tab | space）
+indent_size = 2 # 缩进大小
+end_of_line = lf # 控制换行类型(lf | cr | crlf)
+trim_trailing_whitespace = true # 去除行尾的任意空白字符
+insert_final_newline = true # 始终在文件末尾插入一个新行
+
+[*.md] # 表示仅 md 文件适用以下规则
+max_line_length = off
+trim_trailing_whitespace = false
+```
+
+VSCode 需要安装一个插件：EditorConfig for VS Code
+
+![image-20210722215138665](https://tva1.sinaimg.cn/large/008i3skNgy1gsq2gh989yj30pj05ggmb.jpg)
+
+### 1.2. 使用 prettier 工具
+
+Prettier 是一款强大的代码格式化工具，支持 JavaScript、TypeScript、CSS、SCSS、Less、JSX、Angular、Vue、GraphQL、JSON、Markdown 等语言，基本上前端能用到的文件格式它都可以搞定，是当下最流行的代码格式化工具。
+
+1.安装 prettier
+
+```shell
+npm install prettier -D
+```
+
+2.配置.prettierrc 文件：
+
+- useTabs：使用 tab 缩进还是空格缩进，选择 false；
+- tabWidth：tab 是空格的情况下，是几个空格，选择 2 个；
+- printWidth：当行字符的长度，推荐 80，也有人喜欢 100 或者 120；
+- singleQuote：使用单引号还是双引号，选择 true，使用单引号；
+- trailingComma：在多行输入的尾逗号是否添加，设置为 `none`，比如对象类型的最后一个属性后面是否加一个，；
+- semi：语句末尾是否要加分号，默认值 true，选择 false 表示不加；
 
 ```json
 {
-  "type": "node",
-  "request": "launch",
-  "name": "启动程序",
-  "program": "E:/cli.js"
-}
-```
-### 1.2 保存时自动格式化
-
-File->Preferences->User Settings
-
-```json
-{
-"editor.formatOnType": false,
-"editor.formatOnSave": false
+  "useTabs": false,
+  "tabWidth": 2,
+  "printWidth": 80,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "semi": false
 }
 ```
 
-### 1.3 语言改为英文
-
-快捷键Command+Shift+P（Win下为Control）打开命令行工具,输入设置语言，会打开一个locale.json的文件，如下面所示
-
-{ // 定义 VSCode 的显示语言。 // 请参阅 http://go.microsoft.com/fwlink/?LinkId=761051，了解支持的语言列表。 // 要更改值需要重启 VSCode。 "locale":"zh-CN" } 将locale的值改为en-US之后重启VSCode就恢复到英文版本的了!
-
-### 1.4 快捷键
-
-- 列选择 alt+shift+左键
-- 多点编辑 按alt点击左键
-- 格式化 Alt+shift+f
-
-### 1.5 单行注释
-
-单行注释
-
-```js
-//.+?(?=["$\r\n]
-```
-
-### 1.6 多行注释
-
-```js
-\/\*([\w\W]+?)\*\/
-```
-
-### 1.7 空行
-
-```js
-^\s*(?=\r?$)\n
-```
-
-### 1.8 全部替换
-
-```js
-((\/\*([\w\W]+?)\*\/)|(\/\/.+?(?=["$\r\n]))|(^\s*(?=\r?$)\n))
-```
-
-![emptylineregexp.png](http://img.zhufengpeixun.cn/emptylineregexp.png)
-
-| 表达式      | 含义                                                         |
-| :---------- | :----------------------------------------------------------- |
-| (?:)        | 表示非捕获分组，和捕获分组唯一的区别在于，非捕获分组匹配的值不会保存起来 |
-| (?=pattern) | 正向肯定查找(前瞻),后面必须跟着什么                          |
-
-## 2.MAC
-
-### 2.1 杀死进程
-
-查看进程占用
-
-```javascript
-lsof -i tcp:8080 
-```
-
-该命令会显示占用8080端口的进程，有其 pid ,可以通过pid关掉该进程
-
-```javascript
-kill pid
-```
-
-### 2.2 查看端口占用
-
-#### 2.2.1 lsof
+3.创建.prettierignore 忽略文件
 
 ```
-lsof -i:port
-lsof -i:8080
+/dist/*
+.local
+.output.js
+/node_modules/**
+
+**/*.svg
+**/*.sh
+
+/public/*
 ```
 
-#### 2.2.2 netstat
+4.VSCode 需要安装 prettier 的插件
 
-```
-netstat -antp | grep port
-netstat -antp | grep 8080
-```
+![image-20210722214543454](https://tva1.sinaimg.cn/large/008i3skNgy1gsq2acx21rj30ow057mxp.jpg)
 
-## 3.安装需要编译包
+5.测试 prettier 是否生效
 
-### 3.1 安装sharp
+- 测试一：在代码中保存代码；
+- 测试二：配置一次性修改的命令；
 
-- [sharp](https://www.iqi360.com/p/sharp-cn)是一个高性能的nodejs图像处理库
-
-- [安装sharp](https://www.iqi360.com/p/sharp-cn/docs/5f8b012a5a726a40e3f0f02e)
-
-- [安装过程中遇到sharp安装慢](https://www.cnblogs.com/zzsdream/p/13391731.html)
-
-- [sharp-libvips](https://github.com/lovell/sharp-libvips/releases/tag/v8.10.5)
-
-- ```js
-  npm config set sharp_binary_host "https://npm.taobao.org/mirrors/sharp"
-  npm config set sharp_libvips_binary_host "https://npm.taobao.org/mirrors/sharp-libvips"
-  npm install sharp
-  ```
-
-  ### 3.2 编译
-
-- [node-gyp#on-windows](https://github.com/nodejs/node-gyp#on-windows)
-
-- [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools)
-
-- [python](https://www.python.org/)
-
-### 3.2 cache目录
-
-- NPM会把所有下载的包保存，放在用户文件夹下面，在我的windows10机器上是保存在C:\Users\Administrator\AppData\Roaming\npm-cache下面
-- NPM install之后会计算每个包的sha1值，然后将包与他的sha1值关联保存在package.lock.json里面
-- 下次NPM install的时候会根据package.lock.json里面保存的sha1值去文件夹C:\Users\Administrator\AppData\Roaming\npm-cache里面寻找包文件，如果存在，就不用再次从网上下载安装包
-- NPM cache verify 重新计算C:\Users\Administrator\AppData\Roaming\npm-cache下的文件是否与sha1值匹配，如果不匹配可能删除？
-- NPM cache clean --force 这个命令从C:\Users\Administrator\AppData\Roaming\npm-cache下删除所有缓存文件
-- NPM不同版本算出来的sha1貌似不完全一样，所以直接用别人的package.lock.json会报sha1不匹配的error
-- `yarn cache list` 查看缓存的包
-- `yarn cache dir` 查询cache缓存文件目录路径
-- `yarn cache clean` yarn 清除缓存
-- `npm cache clean --force` npm清除缓存
-
-## 4.Yarn
-
-| 命令                                                      | 说明                                                         |
-| :-------------------------------------------------------- | :----------------------------------------------------------- |
-| yarn -v                                                   | 查看yarn版本                                                 |
-| yarn config list                                          | 查看yarn的所有配置                                           |
-| yarn config set registry https://registry.npm.taobao.org/ | 修改yarn的源镜像为淘宝源                                     |
-| yarn config set global-folder "D:\RTE\Yarn\global"        | 修改全局安装目录, 先创建好目录(global), 我放在了Yarn安装目录下(D:\RTE\Yarn\global) |
-| yarn config set prefix "D:\RTE\Yarn\global\"              | 修改全局安装目录的bin目录位置                                |
-| yarn config set cache-folder "D:\RTE\Yarn\cache"          | 修改全局缓存目录, 先创建好目录(cache), 和global放在同一层目录下 |
-| yarn config list                                          | 查看所有配置                                                 |
-| yarn global bin                                           | 查看当前yarn的bin的位置                                      |
-| yarn global dir                                           | 查看当前yarn的全局安装位置                                   |
-
-## 5.lerna
-
-| 命令            | 功能                                                      |
-| :-------------- | :-------------------------------------------------------- |
-| lerna bootstrap | 安装依赖                                                  |
-| lerna clean     | 删除各个包下的node_modules                                |
-| lerna init      | 创建新的lerna库                                           |
-| lerna list      | 查看本地包列表                                            |
-| lerna changed   | 显示自上次release tag以来有修改的包， 选项通 list         |
-| lerna diff      | 显示自上次release tag以来有修改的包的差异， 执行 git diff |
-| lerna exec      | 在每个包目录下执行任意命令                                |
-| lerna run       | 执行每个包package.json中的脚本命令                        |
-| lerna add       | 添加一个包的版本为各个包的依赖                            |
-| lerna import    | 引入package                                               |
-| lerna link      | 链接互相引用的库                                          |
-| lerna create    | 新建package                                               |
-| lerna publish   | 发布                                                      |
-
-## 6.yarn
-
-| 作用                        | 命令                                                         |
-| :-------------------------- | :----------------------------------------------------------- |
-| 查看工作空间信息            | yarn workspaces info                                         |
-| 给根空间添加依赖            | yarn add chalk cross-spawn fs-extra --ignore-workspace-root-check |
-| 给某个项目添加依赖          | yarn workspace create-react-app3 add commander               |
-| 删除所有的 node_modules     | lerna clean 等于 yarn workspaces run clean                   |
-| 安装和link                  | yarn install 等于 lerna bootstrap --npm-client yarn --use-workspaces |
-| 重新获取所有的 node_modules | yarn install --force                                         |
-| 查看缓存目录                | yarn cache dir                                               |
-| 清除本地缓存                | yarn cache clean                                             |
-
-## 7.调试命令
-
-.vscode\launch.json
+在 package.json 中配置一个 scripts：
 
 ```json
-{
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "vue-cli",
-            "cwd":"${workspaceFolder}",
-            "runtimeExecutable": "npm",
-            "runtimeArgs": [
-                "run",
-                "create"
-            ],
-            "port":9229,
-            "autoAttachChildProcesses": true,
-            "stopOnEntry": true,
-            "skipFiles": [
-                "<node_internals>/**"
-            ]
-        }
-    ]
-}
+    "prettier": "prettier --write ."
 ```
 
-## 8.配置alias
+### 1.3. 使用 ESLint 检测
 
-Create React App无eject配置 打包成相对路径配置 在package.json中增加：
+1.在前面创建项目的时候，我们就选择了 ESLint，所以 Vue 会默认帮助我们配置需要的 ESLint 环境。
+
+2.VSCode 需要安装 ESLint 插件：
+
+![image-20210722215933360](https://tva1.sinaimg.cn/large/008i3skNgy1gsq2oq26odj30pw05faaq.jpg)
+
+3.解决 eslint 和 prettier 冲突的问题：
+
+安装插件：（vue 在创建项目时，如果选择 prettier，那么这两个插件会自动安装）
+
+```shell
+npm install eslint-plugin-prettier eslint-config-prettier -D
+```
+
+添加 prettier 插件：
 
 ```json
-"homepage": "."
+  extends: [
+    "plugin:vue/vue3-essential",
+    "eslint:recommended",
+    "@vue/typescript/recommended",
+    "@vue/prettier",
+    "@vue/prettier/@typescript-eslint",
+    'plugin:prettier/recommended'
+  ],
 ```
 
-## 9.解决vscode卡顿问题
+4.VSCode 中 eslint 的配置
 
-vscode在任务管理器观察CPU占用率100% 解决方案 VScode中文件->首选项->设置 ，之后搜索"search.followSymlinks":true,然后设置为false
+```json
+  "eslint.lintTask.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+```
 
-![exclude](https://static.zhufengpeixun.com/20210805195616161_1637830390170.png)
+### 1.4. git Husky 和 eslint（后续）
 
-## 10. window编译C++
+虽然我们已经要求项目使用 eslint 了，但是不能保证组员提交代码之前都将 eslint 中的问题解决掉了：
 
-- [node-gyp](https://github.com/nodejs/node-gyp)
-- [node-sass](https://www.npmjs.com/package/node-sass)
+- 也就是我们希望保证代码仓库中的代码都是符合 eslint 规范的；
 
-### 10.1 Python executable python2 in the PATH
+- 那么我们需要在组员执行 `git commit ` 命令的时候对其进行校验，如果不符合 eslint 规范，那么自动通过规范进行修复；
 
-- npm install 报错 check python checking for Python executable python2 in the PATH
-- 删除 node_modules 文件夹
-- 在 Terminal 运行 `npm install --global windows-build-tools --save`
-- 再安装 `npm install node-sass --save`
-- 到这里，错误应该就已经解决了，收到了 `gyp info ok` 的提示！
-- 如果遇到 `Node Sass could not find a binding for your current environment`，再运行 `npm rebuild node-sass` 就可以了
+那么如何做到这一点呢？可以通过 Husky 工具：
 
-### 10.2 getaddrinfo ENOENT raw.githubusercontent.com
+- husky 是一个 git hook 工具，可以帮助我们触发 git 提交的各个阶段：pre-commit、commit-msg、pre-push
 
-- 点开网址 https://www.ipaddress.com/ ，输入`raw.githubusercontent.com`，点击查询：
-- 修改hosts文件 `C:\Windows\System32\drivers\etc\hosts` `ip raw.githubusercontent.com`
-- npm install
+如何使用 husky 呢？
 
-### 10.3 npm ERR! gyp verb which failed Error: not found: python2
+这里我们可以使用自动配置命令：
 
-- npm config set python `C:/Python27/python.exe`
+```shell
+npx husky-init && npm install
+```
 
-### 10.4
+这里会做三件事：
 
-npm ERR! gyp ERR! stack Error: spawn C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\15.0\Bin\MSBuild.exe ENOENT
+1.安装 husky 相关的依赖：
 
-npm cache clean --force
+![image-20210723112648927](https://tva1.sinaimg.cn/large/008i3skNgy1gsqq0o5jxmj30bb04qwen.jpg)
 
-C:\Users\zhangrenyang\AppData\Roaming\npm\node_modules\node-gyp\gyp\pylib\gyp\MSVSVersion.py
+2.在项目目录下创建 `.husky` 文件夹：
 
-npm audit fix
+![image-20210723112719634](https://tva1.sinaimg.cn/large/008i3skNgy1gsqq16zo75j307703mt8m.jpg)
+
+3.在 package.json 中添加一个脚本：
+
+![image-20210723112817691](https://tva1.sinaimg.cn/large/008i3skNgy1gsqq26phpxj30dj06fgm3.jpg)
+
+接下来，我们需要去完成一个操作：在进行 commit 时，执行 lint 脚本：
+
+![image-20210723112932943](https://tva1.sinaimg.cn/large/008i3skNgy1gsqq3hn229j30nf04z74q.jpg)
+
+这个时候我们执行 git commit 的时候会自动对代码进行 lint 校验。
+
+### 1.5. git commit 规范（后续）
+
+#### 1.5.1. 代码提交风格
+
+通常我们的 git commit 会按照统一的风格来提交，这样可以快速定位每次提交的内容，方便之后对版本进行控制。
+
+![](https://tva1.sinaimg.cn/large/008i3skNgy1gsqw17gaqjj30to0cj3zp.jpg)
+
+但是如果每次手动来编写这些是比较麻烦的事情，我们可以使用一个工具：Commitizen
+
+- Commitizen 是一个帮助我们编写规范 commit message 的工具；
+
+  1.安装 Commitizen
+
+```shell
+npm install commitizen -D
+```
+
+2.安装 cz-conventional-changelog，并且初始化 cz-conventional-changelog：
+
+```shell
+npx commitizen init cz-conventional-changelog --save-dev --save-exact
+```
+
+这个命令会帮助我们安装 cz-conventional-changelog：
+
+![image-20210723145249096](https://tva1.sinaimg.cn/large/008i3skNgy1gsqvz2odi4j30ek00zmx2.jpg)
+
+并且在 package.json 中进行配置：
+
+![](https://tva1.sinaimg.cn/large/008i3skNgy1gsqvzftay5j30iu04k74d.jpg)
+
+这个时候我们提交代码需要使用 `npx cz`：
+
+- 第一步是选择 type，本次更新的类型
+
+| Type     | 作用                                                                                   |
+| -------- | -------------------------------------------------------------------------------------- |
+| feat     | 新增特性 (feature)                                                                     |
+| fix      | 修复 Bug(bug fix)                                                                      |
+| docs     | 修改文档 (documentation)                                                               |
+| style    | 代码格式修改(white-space, formatting, missing semi colons, etc)                        |
+| refactor | 代码重构(refactor)                                                                     |
+| perf     | 改善性能(A code change that improves performance)                                      |
+| test     | 测试(when adding missing tests)                                                        |
+| build    | 变更项目构建或外部依赖（例如 scopes: webpack、gulp、npm 等）                           |
+| ci       | 更改持续集成软件的配置文件和 package 中的 scripts 命令，例如 scopes: Travis, Circle 等 |
+| chore    | 变更构建流程或辅助工具(比如更改测试环境)                                               |
+| revert   | 代码回退                                                                               |
+
+- 第二步选择本次修改的范围（作用域）
+
+![image-20210723150147510](https://tva1.sinaimg.cn/large/008i3skNgy1gsqw8ca15oj30r600wmx4.jpg)
+
+- 第三步选择提交的信息
+
+![image-20210723150204780](https://tva1.sinaimg.cn/large/008i3skNgy1gsqw8mq3zlj60ni01hmx402.jpg)
+
+- 第四步提交详细的描述信息
+
+![image-20210723150223287](https://tva1.sinaimg.cn/large/008i3skNgy1gsqw8y05bjj30kt01fjrb.jpg)
+
+- 第五步是否是一次重大的更改
+
+![image-20210723150322122](https://tva1.sinaimg.cn/large/008i3skNgy1gsqw9z5vbij30bm00q744.jpg)
+
+- 第六步是否影响某个 open issue
+
+![image-20210723150407822](https://tva1.sinaimg.cn/large/008i3skNgy1gsqwar8xp1j30fq00ya9x.jpg)
+
+我们也可以在 scripts 中构建一个命令来执行 cz：
+
+![image-20210723150526211](https://tva1.sinaimg.cn/large/008i3skNgy1gsqwc4gtkxj30e207174t.jpg)
+
+#### 1.5.2. 代码提交验证
+
+如果我们按照 cz 来规范了提交风格，但是依然有同事通过 `git commit` 按照不规范的格式提交应该怎么办呢？
+
+- 我们可以通过 commitlint 来限制提交；
+
+  1.安装 @commitlint/config-conventional 和 @commitlint/cli
+
+```shell
+npm i @commitlint/config-conventional @commitlint/cli -D
+```
+
+2.在根目录创建 commitlint.config.js 文件，配置 commitlint
+
+```js
+module.exports = {
+  extends: ["@commitlint/config-conventional"],
+};
+```
+
+3.使用 husky 生成 commit-msg 文件，验证提交信息：
+
+```shell
+npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"
+```
+
+## 二. 接口文档
+
+接口文档 v1 版本：
+
+https://documenter.getpostman.com/view/12387168/TzsfmQvw
+
+baseURL 的值：
+
+```
+http://152.136.185.210:5000
+http://152.136.185.210:4000
+```
+
+设置全局 token 的方法：
+
+```js
+const res = pm.response.json();
+pm.globals.set("token", res.data.token);
+```
+
+接口文档 v2 版本：（有部分更新）
+
+https://documenter.getpostman.com/view/12387168/TzzDKb12
