@@ -1,18 +1,18 @@
 # Site settings
-title: RicardoPang
-SEOTitle: RicardoPang
-header-img: img/post-bg-coffee.jpeg
-email: pangfeng22@gmail.com
+title: 前端逐浪
+SEOTitle: 前端逐浪
+header-img: img/post-bg-rwd.jpg
+email: ricardo.pangj@gmail.com
 description: "Every failure is leading towards success."
-keyword: "RicardoPang"
-url: "https://blackwhiteandgray.github.io/" # your host, for absolute URL
+keyword: "前端逐浪"
+# url: "https://blackwhiteandgray.github.io/" # your host, for absolute URL
 baseurl: "" # for example, '/blog' if your blog hosted on 'host/blog'
-github_repo: "https://blackwhiteandgray.github.io/" # you code repository
+# github_repo: "https://blackwhiteandgray.github.io/" # you code repository
 
 # Sidebar settings
-sidebar: true # whether or not using Sidebar.
-sidebar-about-description: "Software Engineer"
-sidebar-avatar: /img/RicardoPang.png # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar: false # whether or not using Sidebar.
+# sidebar-about-description: "Software Engineer"
+# sidebar-avatar: /img/RicardoPang.png # use absolute URL, seeing it's used in both `/` and `/about/`
 
 # SNS settings
 RSS: false
@@ -68,7 +68,7 @@ gitalk:
 #ga_domain: ricardopangj.top               # 默认的是 auto, 这里我是自定义了的域名，你如果没有自己的域名，需要改成auto
 
 # Featured Tags
-featured-tags: true # 是否使用首页标签
+featured-tags: false # 是否使用首页标签
 featured-condition-size: 0 # 相同标签数量大于这个数，才会出现在首页
 
 # Progressive Web Apps
