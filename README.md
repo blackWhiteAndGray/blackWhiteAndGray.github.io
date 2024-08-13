@@ -1,6 +1,6 @@
 ### 说明
 
-RicardoPang的个人博客 [博客地址](https://blackwhiteandgray.github.io)
+RicardoPang 的个人博客 [博客地址](https://blackwhiteandgray.github.io)
 
 ### 撰写博文
 
@@ -11,15 +11,14 @@ yaml 头文件长这样:
 ```
 ---
 layout:     post
-title:      定时器 你真的会使用吗？
-subtitle:   iOS定时器详解
-date:       2016-12-13
+title:      主标题
+subtitle:   不标题
+date:       1999-12-31
 author:     BY
 header-img: img/post-bg-ios9-web.jpg
 catalog: 	 true
 tags:
-    - iOS
-    - 定时器
+    - 前端
 ---
 
 ```
