@@ -4,7 +4,7 @@ title: 前端网络请求-TypeScrpt封装Axios
 subtitle: 前端网络请求封装
 date: 2024-08-12
 author: BY
-header-img: img/post-bg-BJJ.jpg
+header-img: img/post-bg-os-metro.jpg
 catalog: true
 tags:
   - Vue
@@ -15,7 +15,7 @@ tags:
 
 > 二次封装 Axios 的目的是确保将来如果需要切换网络请求库，只需修改 `request/index.ts` 文件即可。此外，这种封装还可以增加扩展性，并降低因该库不再维护而带来的风险。
 
-### 一. axios的二次封装
+### 一. axios 的二次封装
 
 #### 为什么需要二次封装？
 
@@ -26,8 +26,8 @@ tags:
 我们可以通过创建一个 `PFRequest` 类来封装 `axios` 的实例，并在这个类中实现请求方法（如 `get`、`post`、`delete`、`patch`）。这样，我们可以在项目中使用 `PFRequest` 类来统一发起网络请求，而不直接依赖 `axios`。
 
 ```tsx
-import axios, { AxiosInstance } from 'axios';
-import type { PFRequestConfig } from './type';
+import axios, { AxiosInstance } from "axios";
+import type { PFRequestConfig } from "./type";
 
 class PFRequest {
   private instance: AxiosInstance;
@@ -43,30 +43,28 @@ class PFRequest {
 
   request<T = any>(config: PFRequestConfig<T>): Promise<T> {
     return new Promise<T>((resolve, reject) => {
-      this.instance.request<any, T>(config)
-        .then(resolve)
-        .catch(reject);
+      this.instance.request<any, T>(config).then(resolve).catch(reject);
     });
   }
 
   get<T = any>(config: PFRequestConfig<T>) {
-    return this.request({ ...config, method: 'GET' });
+    return this.request({ ...config, method: "GET" });
   }
 
   post<T = any>(config: PFRequestConfig<T>) {
-    return this.request({ ...config, method: 'POST' });
+    return this.request({ ...config, method: "POST" });
   }
 
   delete<T = any>(config: PFRequestConfig<T>) {
-    return this.request({ ...config, method: 'DELETE' });
+    return this.request({ ...config, method: "DELETE" });
   }
 
   patch<T = any>(config: PFRequestConfig<T>) {
-    return this.request({ ...config, method: 'PATCH' });
+    return this.request({ ...config, method: "PATCH" });
   }
-  }
+}
 
-  export default PFRequest;
+export default PFRequest;
 ```
 
 在上面的代码中，我们通过 `PFRequest` 类来封装 `axios` 实例，并提供了 `request`、`get`、`post` 等方法，以便在项目中使用。
