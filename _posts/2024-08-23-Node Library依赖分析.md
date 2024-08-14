@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Node Library依赖分析
-subtitle: 依赖分析
+subtitle: 依赖关系分析工具
 date: 2024-08-23
 author: BY
 header-img: img/WJkc3xZjSXw.jpg
@@ -271,7 +271,6 @@ tags:
 
    ```tsx
    // 解析pnpm lock file 其他同理
-   // 解析pnpm工具
    import { readWantedLockfile } from '@pnpm/lockfile-file'
    import {
      IGraphData,
