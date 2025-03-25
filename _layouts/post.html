@@ -51,7 +51,7 @@ layout: default
                 {% if site.disqus_username %}
                 <!-- disqus 评论框 start -->
                 <div class="comment">
-                    <div id="disqus_thread" class="disqus-thread"></div>
+                    {% include disqus.html %}
                 </div>
                 <!-- disqus 评论框 end -->
                 {% endif %}
@@ -118,25 +118,7 @@ layout: default
 {% endif %}
 
 
-{% if site.disqus_username %}
-<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES * * */
-    var disqus_shortname = "{{site.disqus_username}}";
-    var disqus_identifier = "{{page.id}}";
-    var disqus_url = "{{site.url}}{{page.url}}";
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(s);
-    })();
-</script>
-<!-- disqus 公共JS代码 end -->
-{% endif %}
+<!-- Disqus JS 代码已移至 _includes/disqus.html -->
 
 
 {% if site.anchorjs %}
