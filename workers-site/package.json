@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "blog-worker",
+  "version": "1.0.0",
+  "description": "使用Cloudflare Workers部署个人博客",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write '**/*.{js,css,json,md}'"
+  },
+  "author": "RicardoPang",
+  "license": "MIT",
+  "dependencies": {
+    "@cloudflare/kv-asset-handler": "^0.2.0"
+  }
+}

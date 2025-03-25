@@ -1,0 +1,9 @@
+name = "blog-worker"
+type = "webpack"
+account_id = "ac3283c45717d166d8c828bb3d93077c"
+route = "codingambition.top/*"
+zone_id = ""  # 将在后续步骤获取
+
+[site]
+bucket = "./_site"  # Jekyll生成的静态文件目录
+entry-point = "workers-site"
