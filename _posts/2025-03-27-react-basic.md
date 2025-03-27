@@ -1,11 +1,11 @@
 ---
-layout: post
-title: 'React 基础与进阶'
-author: 'ZhuLang'
-header-style: text
+layout:     post
+title:      "React 基础与进阶"
+subtitle:   "React 语言基础"
+date:       2025-03-27
+author:     "ZhuLang"
+header-img: "img/post-bg-re-vs-ng2.jpg"
 catalog: true
-date: 2025-03-27
-header-img: 'img/post-bg-re-vs-ng2.jpg'
 tags:
   - Web
   - React

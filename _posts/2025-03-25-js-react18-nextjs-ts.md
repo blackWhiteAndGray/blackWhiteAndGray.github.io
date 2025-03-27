@@ -4,7 +4,7 @@ title:      "React18+Next.js13+TS，B端+C端完整业务+技术双闭环"
 subtitle:   "B端+C端完整业务+技术双闭环"
 date:       2025-03-25
 author:     "ZhuLang"
-header-img: "img/post-sample-image.jpg"
+header-img: "img/post-bg-os-metro.jpg"
 catalog: true
 tags:
   - Web
