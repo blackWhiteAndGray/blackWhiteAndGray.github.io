@@ -1,6 +1,17 @@
 ---
-title: 前端网络请求-TypeScrpt封装Axios
-description: 前端网络请求封装
+layout:     post
+title:      "前端网络请求-TypeScrpt封装Axios"
+subtitle:   "前端网络请求封装"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Axios
+  - TypeScript
+  - Network
+  - Request
 ---
 
 > 二次封装 Axios 的目的是确保将来如果需要切换网络请求库，只需修改 `request/index.ts` 文件即可。此外，这种封装还可以增加扩展性，并降低因该库不再维护而带来的风险。

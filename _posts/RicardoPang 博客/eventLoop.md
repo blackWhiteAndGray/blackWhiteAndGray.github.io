@@ -1,6 +1,14 @@
 ---
-title: 深入浅出：理解浏览器与 Node.js 的 Event Loop
-description: 事件循环
+layout:     post
+title:      "深入浅出：理解浏览器与 Node.js 的 Event Loop"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Event Loop
+  - Node
 ---
 
 > JS是`单线程`的，JS是通过事件队列`(Event Loop)`的方式来实现异步回调的。

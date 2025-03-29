@@ -1,6 +1,14 @@
 ---
-title: 深入解析V8引擎：JavaScript对象存储与性能优化
-description: V8 是怎么跑起来的
+layout:     post
+title:      "深入解析V8引擎：JavaScript对象存储与性能优化"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - V8
+  - JavaScript
 ---
 
 ## 什么是Google V8

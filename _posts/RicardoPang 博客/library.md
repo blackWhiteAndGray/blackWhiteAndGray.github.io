@@ -1,6 +1,16 @@
 ---
-title: Node Library依赖分析
-description: 工具
+layout:     post
+title:      "Node Library依赖分析"
+subtitle:   "工具"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Library
+  - TypeScript
+  - Node
 ---
 
 > 在本次技术分享中，将主要探讨《Node Library 依赖关系分析工具》， 重点介绍使用Vite作为构建工具，TypeScript提供类型安全，结合Vue3和Pinia构建前端架构；通过集成D3.js实现复杂的数据可视化； 强化开发体验,，包括ESLint和Prettier的代码规范， 以及Commitlint的提交规范;；后端服务使用koa框架,，并通过命令行工具增强用户交互； 最后，分享从项目设计到实现阶段如何解决数据处理和性能优化的挑战.。期望通过这次交流,，与大家共同提升数据可视化开发的技能。

@@ -1,6 +1,14 @@
 ---
-title: 掌握设计模式，构建高效代码
-description: 深入学习设计模式，助力编写高效、可维护的代码
+layout:     post
+title:      "掌握设计模式，构建高效代码"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Design
+  - JavaScript
 ---
 
 ## 设计原则

@@ -1,6 +1,15 @@
 ---
-title: 手写vue-router源码
-description: 核心原理
+layout:     post
+title:      "手写Vue-router源码"
+subtitle:   "核心原理"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Vue
+  - JavaScript
 ---
 
 > Vue-Router源码深度剖析

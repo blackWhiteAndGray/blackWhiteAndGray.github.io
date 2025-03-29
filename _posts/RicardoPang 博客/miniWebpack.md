@@ -1,6 +1,15 @@
 ---
-title: 从零开始实现一个简化版 Webpack 打包器
-description: 手写
+layout:     post
+title:      "从零开始实现一个简化版 Webpack 打包器"
+subtitle:   "手写"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Webpack
+  - JavaScript
 ---
 
 > Webpack 是现代前端开发中不可或缺的打包工具，它能够将多个模块及其依赖关系打包成一个或多个输出文件，从而优化浏览器加载性能。然而，对于很多开发者来说，Webpack 的内部机制可能显得神秘和复杂。本文将通过构建一个简化版的 Webpack，深入探讨其核心原理和实现细节，帮助你更好地理解 Webpack 的工作方式。

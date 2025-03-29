@@ -1,6 +1,15 @@
 ---
-title: 前端组件库
-description: 自定义组件库开发
+layout:     post
+title:      "前端组件库"
+subtitle:   "自定义组件库开发"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Vue
+  - JavaScript
 ---
 
 > 虽然市面上已经有很多知名的组件库，但由于团队设计规范和业务需求的多样性，实际开发中经常需要自行开发团队内部的基础和业务组件库。为了解决业务类型多、重复造轮子、项目升级以及公司规范无法统一等问题，我们决定开发属于自己的组件库。

@@ -1,13 +1,22 @@
 ---
-title: 手写vuex源码
-description: 核心原理
+layout:     post
+title:      "手写vuex源码"
+subtitle:   "核心原理"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Vuex
+  - Vue
 ---
 
-> vuex原理剖析
+> vuex 原理剖析
 
-## 一.Vuex基本使用及用法
+## 一.Vuex 基本使用及用法
 
-> vuex是vue的状态管理工具，为了更方便实现多个组件共享状态
+> vuex 是 vue 的状态管理工具，为了更方便实现多个组件共享状态
 
 ```js
 // store/index.js
@@ -85,7 +94,7 @@ setTimeout(() => {
 export default Store;
 ```
 
-> 这里可以类比：state类比为最贱的状态，getters类比为组件的计算属性，mutation类比为组件中的方法（可以更改组件的状态），actions用于进行一步操作将结构提交给mutation
+> 这里可以类比：state 类比为最贱的状态，getters 类比为组件的计算属性，mutation 类比为组件中的方法（可以更改组件的状态），actions 用于进行一步操作将结构提交给 mutation
 
 ```vue
 // App.vue
@@ -107,7 +116,7 @@ export default Store;
 </div>
 ```
 
-> 这个$store属性是通过根实例传入的
+> 这个$store 属性是通过根实例传入的
 
 ```js
 // main.js
@@ -117,11 +126,11 @@ new Vue({
 }).$mount('#app');
 ```
 
-> 内部会将store熟悉挂载在每个实例上命名为$store，这样所有组件都可以操作同一个store属性
+> 内部会将 store 熟悉挂载在每个实例上命名为$store，这样所有组件都可以操作同一个 store 属性
 
-## 二.自己实现Vuex模块
+## 二.自己实现 Vuex 模块
 
-> 实现入口文件，默认导出Store类和install方法
+> 实现入口文件，默认导出 Store 类和 install 方法
 
 ```js
 // vuex/index.js
@@ -136,7 +145,7 @@ const Vuex = {
 export default Vuex;
 ```
 
-### 3.1.install方法
+### 3.1.install 方法
 
 ```js
 // vuex/install.js
@@ -160,78 +169,78 @@ export const install = (_Vue, options) => {
 };
 ```
 
-> 当我们使用插件时默认会执行install方法并传入Vue的构造函数
+> 当我们使用插件时默认会执行 install 方法并传入 Vue 的构造函数
 
-### 3.2.实现state
+### 3.2.实现 state
 
 ```js
 export class Store {
-    constructor(options){
-        let state = options.state;
-        this._vm = new Vue({
-            data:{
-                $$state:state,
-            }
-        });
-    }
-    get state(){
-        return this._vm._data.$$state
-    }
+  constructor(options) {
+    let state = options.state;
+    this._vm = new Vue({
+      data: {
+        $$state: state,
+      },
+    });
+  }
+  get state() {
+    return this._vm._data.$$state;
+  }
 }
 ```
 
-> 将用户传入的数据定义在vue的实例上（这个就是vuex核心）产生一个单独的vue实例进行通信，这里要注意的是定义$开头的变量不会被代理到实例上
+> 将用户传入的数据定义在 vue 的实例上（这个就是 vuex 核心）产生一个单独的 vue 实例进行通信，这里要注意的是定义$开头的变量不会被代理到实例上
 
-### 3.3.实现getters
+### 3.3.实现 getters
 
 ```js
 this.getters = {};
-const computed = {}
+const computed = {};
 forEachValue(options.getters, (fn, key) => {
-    computed[key] = () => {
-        return fn(this.state);
-    }
-    Object.defineProperty(this.getters,key,{
-        get:()=> this._vm[key]
-    })
+  computed[key] = () => {
+    return fn(this.state);
+  };
+  Object.defineProperty(this.getters, key, {
+    get: () => this._vm[key],
+  });
 });
 this._vm = new Vue({
-    data: {
-        $$state: state,
-    },
-    computed // 利用计算属性实现缓存
+  data: {
+    $$state: state,
+  },
+  computed, // 利用计算属性实现缓存
 });
 ```
 
-### 3.4.实现mutations
+### 3.4.实现 mutations
 
 ```js
 export class Store {
-    constructor(options) {
-        this.mutations = {};
-        forEachValue(options.mutations, (fn, key) => {
-            this.mutations[key] = (payload) => fn.call(this, this.state, payload)
-        });
-    }
-    commit = (type, payload) => {
-        this.mutations[type](payload);
-    }
+  constructor(options) {
+    this.mutations = {};
+    forEachValue(options.mutations, (fn, key) => {
+      this.mutations[key] = (payload) => fn.call(this, this.state, payload);
+    });
+  }
+  commit = (type, payload) => {
+    this.mutations[type](payload);
+  };
 }
 ```
 
-### 3.5.实现actions
+### 3.5.实现 actions
 
 ```js
 export class Store {
-    constructor(options) {
-        this.actions = {};
-        forEachValue(options.actions, (fn, key) => {
-            this.actions[key] = (payload) => fn.call(this, this,payload);
-        });
-    }
-    dispatch = (type, payload) => {
-        this.actions[type](payload);
-    }
+  constructor(options) {
+    this.actions = {};
+    forEachValue(options.actions, (fn, key) => {
+      this.actions[key] = (payload) => fn.call(this, this, payload);
+    });
+  }
+  dispatch = (type, payload) => {
+    this.actions[type](payload);
+  };
 }
 ```
 
@@ -562,7 +571,7 @@ registerModule(path, rawModule) {
 }
 ```
 
-> 实现模块的注册，就是将当前模块注册到_modules中
+> 实现模块的注册，就是将当前模块注册到\_modules 中
 
 ```js
 function resetVM(store, state) {
@@ -615,7 +624,7 @@ const persitsPlugin = (store) => {
 plugins: [persitsPlugin],
 ```
 
-> 这里要实现subscribe、replaceState方法
+> 这里要实现 subscribe、replaceState 方法
 
 ```js
 // vuex/store.js
@@ -653,15 +662,15 @@ module.forEachMutation((mutationKey, mutationValue) => {
       mutationValue(getState(store, path), payload);
     });
     store._subscribes.forEach((callback) =>
-                              callback({ type: mutationKey }, store.state)
-                             );
+      callback({ type: mutationKey }, store.state)
+    );
   });
 });
 ```
 
-> 调用mutation时传入最新状态
+> 调用 mutation 时传入最新状态
 
-## 五.区分mutation和action
+## 五.区分 mutation 和 action
 
 ```js
 withCommitting(fn) {
@@ -681,7 +690,7 @@ store.vm.$watch(
 );
 ```
 
-> 增加同步watcher，监听状态变化
+> 增加同步 watcher，监听状态变化
 
 ```js
 store.withCommitting(() => {
@@ -689,7 +698,7 @@ store.withCommitting(() => {
 });
 ```
 
-> 只有通过mutation更改状态，断言才能通过
+> 只有通过 mutation 更改状态，断言才能通过
 
 ```js
 replaceState(newState) {
@@ -707,7 +716,7 @@ store.withCommitting(() => {
 });
 ```
 
-> 内部更改状态属于正常更新，所以也许用withCommitting进行包裹
+> 内部更改状态属于正常更新，所以也许用 withCommitting 进行包裹
 
 ![Vuex](https://p.ipic.vip/chxfk9.png)
 

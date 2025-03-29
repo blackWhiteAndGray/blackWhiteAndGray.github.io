@@ -1,6 +1,18 @@
 ---
-title: 前端监控与埋点
-description: 开发SDK
+layout:     post
+title:      "前端监控与埋点"
+subtitle:   "开发SDK"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Monitor
+  - TypeScript
+  - Axios
+  - Network
+  - Request
 ---
 
 > 获取用户行为以及跟踪产品在用户端的使用情况，并以监控数据为基础，指明产品优化的方向。

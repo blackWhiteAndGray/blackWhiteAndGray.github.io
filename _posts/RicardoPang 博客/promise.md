@@ -1,6 +1,15 @@
 ---
-title: 从零开始，手写完整的Promise原理
-description: 实现Promise
+layout:     post
+title:      "从零开始，手写完整的Promise原理"
+subtitle:   "实现Promise"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - JavaScript
+  - Promise
 ---
 
 > [Promises/A+规范](https://www.ituring.com.cn/article/66566)

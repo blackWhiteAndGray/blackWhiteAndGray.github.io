@@ -1,7 +1,14 @@
 ---
-title: Node文件处理
-description: fs
-
+layout:     post
+title:      "Node文件处理"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Node
+  - fs
 ---
 
 ## 1. fs 模块

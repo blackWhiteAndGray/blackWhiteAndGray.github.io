@@ -1,6 +1,15 @@
 ---
-title: Typescript 安全编码的秘密武器
-description: 类型系统
+layout:     post
+title:      "Typescript 安全编码的秘密武器"
+subtitle:   "类型系统"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - JavaScript
+  - TypeScript
 ---
 
 ## 1. typescript 是什么

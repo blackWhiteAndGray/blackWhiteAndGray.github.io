@@ -1,6 +1,15 @@
 ---
-title: VirtualScroll
-description: VirtualScroll 虚拟滚动
+layout:     post
+title:      "VirtualScroll 虚拟滚动"
+subtitle:   "性能优化"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Vue
+  - JavaScript
 ---
 
 # VirtualScroll 虚拟滚动

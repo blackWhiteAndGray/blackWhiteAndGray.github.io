@@ -1,6 +1,17 @@
 ---
-title: 微信小程序
-description: 小程序开发和原理
+layout:     post
+title:      "微信小程序"
+subtitle:   "小程序开发和原理"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - 小程序
+  - 微信小程序
+  - 微信开发
+  - 微信开发
 ---
 
 # 微信小程序的技术架构与运行原理解析

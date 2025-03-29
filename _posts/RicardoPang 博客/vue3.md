@@ -1,9 +1,18 @@
 ---
-title: 手写Vue3.0源码
-description: 核心原理
+layout:     post
+title:      "手写Vue3.0源码"
+subtitle:   "核心原理"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Vue3
+  - JavaScript
 ---
 
-## 一.Vue3响应式原理
+## 一.Vue3 响应式原理
 
 ### 1.1. 架构分析
 
@@ -61,7 +70,7 @@ description: 核心原理
 npm install typescript rollup rollup-plugin-typescript2 @rollup/plugin-node-resolve @rollup/plugin-json execa -D
 ```
 
-##### workspace配置
+##### workspace 配置
 
 ```bash
 npm init -y && npx tsc --init
@@ -98,13 +107,9 @@ npm init -y && npx tsc --init
   "main": "index.js",
   "license": "MIT",
   "module": "dist/reactivity.esm-bundler.js",
-  "buildOptions":{
-    "name":"VueReactivity",
-    "formats":[
-      "cjs",
-      "esm-bundler",
-      "global"
-    ]
+  "buildOptions": {
+    "name": "VueReactivity",
+    "formats": ["cjs", "esm-bundler", "global"]
   }
 }
 ```
@@ -113,7 +118,7 @@ npm init -y && npx tsc --init
 
 ### 1.2. 构建环境搭建
 
-##### 对packages下模块进行打包
+##### 对 packages 下模块进行打包
 
 > scripts/build.js
 
@@ -149,7 +154,7 @@ function runParallel(targets, iteratorFn) {
 runParallel(targets, build);
 ```
 
-##### rollup配置
+##### rollup 配置
 
 > rollup.config.js
 
@@ -236,11 +241,10 @@ async function build(target) {
 }
 ```
 
-### 1.3.响应式API实现
+### 1.3.响应式 API 实现
 
 ```js
-let { reactive, shallowReactive, readonly, shallowReadonly } =
-    VueReactivity;
+let { reactive, shallowReactive, readonly, shallowReadonly } = VueReactivity;
 let state = shallowReadonly({ name: 'pf', age: { n: 12 } });
 state.age.n = 100;
 let school = {
@@ -253,7 +257,7 @@ let obj1 = reactive(school);
 obj1.arr.push(100);
 ```
 
-> 针对不同的API创建不同的响应式对象
+> 针对不同的 API 创建不同的响应式对象
 
 ```js
 import { isObject } from '@vue/shared';
@@ -283,7 +287,7 @@ const readonlyMap = new WeakMap();
 export function createReactiveObject(target, isReadonly, baseHandlers) {}
 ```
 
-### 1.4.shared模块实现
+### 1.4.shared 模块实现
 
 ```json
 {
@@ -292,12 +296,9 @@ export function createReactiveObject(target, isReadonly, baseHandlers) {}
   "main": "index.js",
   "module": "dist/shared.esm-bundler.js",
   "license": "MIT",
-  "buildOptions":{
-    "name":"VueShared",
-    "formats":[
-      "cjs",
-      "esm-bundler"
-    ]
+  "buildOptions": {
+    "name": "VueShared",
+    "formats": ["cjs", "esm-bundler"]
   }
 }
 ```
@@ -312,11 +313,11 @@ export function createReactiveObject(target, isReadonly, baseHandlers) {}
 }
 ```
 
-> 使用`npm install`将`shared` 模块注入到node_modules中
+> 使用`npm install`将`shared` 模块注入到 node_modules 中
 
-### 1.5.createReactiveObject实现
+### 1.5.createReactiveObject 实现
 
-> Vue中采用proxy实现数据代理，核心就是拦截`get`方法和`set`方法，当获取值时收集effect函数，当修改值时触发对应的effect重新执行
+> Vue 中采用 proxy 实现数据代理，核心就是拦截`get`方法和`set`方法，当获取值时收集 effect 函数，当修改值时触发对应的 effect 重新执行
 
 ```js
 import { isObject } from '@vue/shared';
@@ -340,12 +341,10 @@ export function createReactiveObject(target, isReadonly, baseHandlers) {
 }
 ```
 
-> baseHandlers实现
+> baseHandlers 实现
 
 ```js
-import {
-  isObject,
-} from '@vue/shared/src';
+import { isObject } from '@vue/shared/src';
 import { reactive, readonly } from './reactive';
 
 const get = createGetter();
@@ -409,9 +408,9 @@ function createSetter(shallow = false) {
 }
 ```
 
-### 1.6.effect实现
+### 1.6.effect 实现
 
-> 实现响应式effect
+> 实现响应式 effect
 
 ```js
 export function effect(fn, options: any = {}) {
@@ -440,7 +439,7 @@ function createReactiveEffect(fn, options) {
 }
 ```
 
-> 利用栈型结构存储effect，保证依赖关系
+> 利用栈型结构存储 effect，保证依赖关系
 
 ```js
 effect(()=>{ // effect1   [effect1]
@@ -468,7 +467,7 @@ const effect = function reactiveEffect() {
 };
 ```
 
-### 1.7.track依赖收集
+### 1.7.track 依赖收集
 
 ```js
 function createGetter(isReadonly = false, shallow = false) {
@@ -478,7 +477,7 @@ function createGetter(isReadonly = false, shallow = false) {
     if (!isReadonly) {
       track(target, TrackOpTypes.GET, key);
     }
-  }
+  };
 }
 ```
 
@@ -506,7 +505,7 @@ export function track(target, type, key) {
 }
 ```
 
-### 1.8.trigger触发更新
+### 1.8.trigger 触发更新
 
 > 对新增属性和修改属性做分类
 
@@ -532,7 +531,7 @@ function createSetter(shallow = false) {
 }
 ```
 
-> 将需要触发的effect依次找到依次执行
+> 将需要触发的 effect 依次找到依次执行
 
 ```js
 // 找属性对应的effect 让其执行 （数组、对象）
@@ -580,9 +579,9 @@ export function trigger(target, type, key?, newValue?, oldValue?) {
 }
 ```
 
-### 1.9.实现Ref
+### 1.9.实现 Ref
 
-> ref本质就是通过类的属性访问器来实现的，可以将一个普通值类型进行包装
+> ref 本质就是通过类的属性访问器来实现的，可以将一个普通值类型进行包装
 
 ```js
 import { hasChanged, isArray, isObject } from '@vue/shared/src';
@@ -630,7 +629,7 @@ function createRef(rawValue, shallow = false) {
 }
 ```
 
-### 1.10.实现toRefs
+### 1.10.实现 toRefs
 
 ```js
 class ObjectRefImpl {
@@ -663,11 +662,11 @@ export function toRefs(object) {
 }
 ```
 
-> 将对象中的属性转换成ref属性
+> 将对象中的属性转换成 ref 属性
 
-### 1.11.实现Computed
+### 1.11.实现 Computed
 
-> computed的整体思路和Vue2源码基本一致，也是基于缓存来实现的
+> computed 的整体思路和 Vue2 源码基本一致，也是基于缓存来实现的
 
 ```tsx
 import { isFunction } from '@vue/shared';
@@ -737,15 +736,15 @@ effects.forEach((effect: any) => {
 });
 ```
 
-## 二.Vue3初始化流程
+## 二.Vue3 初始化流程
 
-### 2.1.介绍VueRuntimeDOM
+### 2.1.介绍 VueRuntimeDOM
 
-> VueRuntimeDOM解决浏览器运行时问题，此包中提供了DOM属性操作和节点操作一系列接口
+> VueRuntimeDOM 解决浏览器运行时问题，此包中提供了 DOM 属性操作和节点操作一系列接口
 
-### 2.2.patchProp实现
+### 2.2.patchProp 实现
 
-> 此方法主要针对不同的属性提供不同的patch操作
+> 此方法主要针对不同的属性提供不同的 patch 操作
 
 ```tsx
 export const patchProp = (el, key, prevValue, nextValue) => {
@@ -850,7 +849,7 @@ const patchAttr = (el, key, value) => {
 };
 ```
 
-### 2.3.nodeOps实现
+### 2.3.nodeOps 实现
 
 > 这里存放着所有节点操作的方法
 
@@ -878,9 +877,9 @@ export const nodeOps = {
 };
 ```
 
-### 2.4.runtimeDOM实现
+### 2.4.runtimeDOM 实现
 
-> 用户调用的createApp函数就在这里被声明
+> 用户调用的 createApp 函数就在这里被声明
 
 ```tsx
 // 需要支持dom创建的api及属性处理的api
@@ -915,32 +914,35 @@ export function createApp(rootComponent, rootProps = null) {
 // -----------这些逻辑移动到core中与平台代码无关--------------
 function createRenderer(rendererOptions) {
   return {
-    createApp(rootComponent, rootProps) { // 用户创建app的参数
+    createApp(rootComponent, rootProps) {
+      // 用户创建app的参数
       const app = {
-        mount(container) { // 挂载的容器
-
-        }
-      }
+        mount(container) {
+          // 挂载的容器
+        },
+      };
       return app;
-    }
-  }
+    },
+  };
 }
 ```
 
-### 2.5.runtimeCore实现
+### 2.5.runtimeCore 实现
 
 > renderer.ts
 
 ```tsx
-import { createAppAPI } from "./apiCreateApp"
+import { createAppAPI } from './apiCreateApp';
 
-export function createRenderer(rendererOptions) { // 渲染时所到的api
-  const render = (vnode,container) =>{ // 核心渲染方法
+export function createRenderer(rendererOptions) {
+  // 渲染时所到的api
+  const render = (vnode, container) => {
+    // 核心渲染方法
     // 将虚拟节点转化成真实节点插入到容器中
-  }
+  };
   return {
-    createApp:createAppAPI(render)
-  }
+    createApp: createAppAPI(render),
+  };
 }
 ```
 
@@ -964,7 +966,7 @@ export function createAppAPI(render) {
 }
 ```
 
-### 2.6.VNode实现
+### 2.6.VNode 实现
 
 ```tsx
 import { createVnode } from './vnode';
@@ -1036,18 +1038,16 @@ function normalizeChildren(vnode, children) {
 }
 ```
 
-> 创建出vnode，交给render函数进行渲染
+> 创建出 vnode，交给 render 函数进行渲染
 
-## 三.Vue3渲染流程
+## 三.Vue3 渲染流程
 
 ### 3.1.初始化渲染逻辑
 
-> 初始调用render方法时，虚拟节点的类型为组件
+> 初始调用 render 方法时，虚拟节点的类型为组件
 
 ```tsx
-const processElement = (n1, n2, container, anchor) => {
-
-};
+const processElement = (n1, n2, container, anchor) => {};
 const mountComponent = (initialVNode, container) => {
   // 组件初始化
 };
@@ -1083,7 +1083,7 @@ const mountComponent = (initialVNode, container) => {
   // 组件的渲染流程  最核心的就是调用 setup拿到返回值，获取render函数返回的结果来进行渲染
   // 1.先有实例
   const instance = (initialVNode.component =
-                    createComponentInstance(initialVNode));
+    createComponentInstance(initialVNode));
 };
 ```
 
@@ -1113,22 +1113,22 @@ export function createComponentInstance(vnode) {
 }
 ```
 
-#### 2.扩展instance
+#### 2.扩展 instance
 
-> 需要给instance上的属性进行初始化操作
+> 需要给 instance 上的属性进行初始化操作
 
 ```tsx
 const mountComponent = (initialVNode, container) => {
   // 组件的渲染流程  最核心的就是调用 setup拿到返回值，获取render函数返回的结果来进行渲染
   // 1.先有实例
   const instance = (initialVNode.component =
-                    createComponentInstance(initialVNode));
+    createComponentInstance(initialVNode));
   // 2.需要的数据解析到实例上
   setupComponent(instance); // state props attrs render ....
 };
 ```
 
-> 组件的启动，核心就是调用setup方法
+> 组件的启动，核心就是调用 setup 方法
 
 ```tsx
 function setupStatefulComponent(instance) {
@@ -1165,7 +1165,7 @@ export function setupComponent(instance) {
 }
 ```
 
-> 提供instance.proxy，代理实例上一系列属性
+> 提供 instance.proxy，代理实例上一系列属性
 
 ```tsx
 import { hasOwn } from '@vue/shared/src';
@@ -1234,9 +1234,9 @@ function finishComponentSetup(instance) {
 }
 ```
 
-> applyOptions中兼容vue2写法
+> applyOptions 中兼容 vue2 写法
 
-#### 3.初始化渲染effect
+#### 3.初始化渲染 effect
 
 > 保证组件中数据变化可以重新继续组件的渲染
 
@@ -1245,7 +1245,7 @@ const mountComponent = (initialVNode, container) => {
   // 组件的渲染流程  最核心的就是调用 setup拿到返回值，获取render函数返回的结果来进行渲染
   // 1.先有实例
   const instance = (initialVNode.component =
-                    createComponentInstance(initialVNode));
+    createComponentInstance(initialVNode));
   // 2.需要的数据解析到实例上
   setupComponent(instance); // state props attrs render ....
   // 3.创建一个effect 让render函数执行
@@ -1309,17 +1309,17 @@ const setupRenderEfect = (instance, container) => {
 };
 ```
 
-> render函数中返回的是虚拟节点，例如
+> render 函数中返回的是虚拟节点，例如
 
 ```tsx
 const App = {
-    render : (r) =>h('div', {}, 'hello')
-}
+  render: (r) => h('div', {}, 'hello'),
+};
 ```
 
 ### 3.3.元素创建流程
 
-#### 1.h方法的实现
+#### 1.h 方法的实现
 
 ```tsx
 import { isArray, isObject } from '@vue/shared';
@@ -1402,11 +1402,11 @@ const processText = (n1, n2, container) => {
 };
 ```
 
-## 四.Vue3中diff算法
+## 四.Vue3 中 diff 算法
 
 ### 4.1.组件更新
 
-> 当依赖的属性变化时，会重新执行effect函数，我们再次调用render方法生成新的虚拟DOM，进行`diff`操作
+> 当依赖的属性变化时，会重新执行 effect 函数，我们再次调用 render 方法生成新的虚拟 DOM，进行`diff`操作
 
 ```tsx
 instance.update = effect(
@@ -1428,7 +1428,7 @@ instance.update = effect(
 
 ### 4.2.前后元素不一致
 
-> 两个不同虚拟节点不需要进行比较，直接移除老节点，将新的虚拟节点渲染成真实DOM进行挂载即可
+> 两个不同虚拟节点不需要进行比较，直接移除老节点，将新的虚拟节点渲染成真实 DOM 进行挂载即可
 
 ```js
 const { createApp, h, reactive } = VueRuntimeDOM;
@@ -1436,21 +1436,25 @@ const App = {
   setup() {
     let state = reactive({ flag: true });
     return {
-      state
-    }
+      state,
+    };
   },
   render: (r) => {
-    return r.state.flag ? h('div', {
-      onClick: () => {
-        r.state.flag = false;
-      }
-    }, 'hello') : h('p', {}, 'world')
-  }
-}
+    return r.state.flag
+      ? h(
+          'div',
+          {
+            onClick: () => {
+              r.state.flag = false;
+            },
+          },
+          'hello'
+        )
+      : h('p', {}, 'world');
+  },
+};
 createApp(App).mount('#app');
 ```
-
-
 
 > 切换显示不同节点
 
@@ -1484,22 +1488,28 @@ const App = {
   setup() {
     let state = reactive({ flag: true });
     return {
-      state
-    }
+      state,
+    };
   },
   render: (r) => {
-    return r.state.flag ? h('div', {
-      style: { color: 'red' },
-      onClick: () => {
-        r.state.flag = false;
-      }
-    }, 'hello') : h('div', { style: { color: 'blue' } }, 'world')
-  }
-}
+    return r.state.flag
+      ? h(
+          'div',
+          {
+            style: { color: 'red' },
+            onClick: () => {
+              r.state.flag = false;
+            },
+          },
+          'hello'
+        )
+      : h('div', { style: { color: 'blue' } }, 'world');
+  },
+};
 createApp(App).mount('#app');
 ```
 
-> 前后虚拟节点一样，则复用DOM元素，并且更新属性和子节点
+> 前后虚拟节点一样，则复用 DOM 元素，并且更新属性和子节点
 
 ```tsx
 const patchElement = (n1, n2) => {
@@ -1538,7 +1548,7 @@ const patchElement = (n1, n2) => {
 
 - 比较儿子节点
 
-  > 针对子节点类型做基本diff操作，最复杂的情况莫过于双方都有儿子的情况
+  > 针对子节点类型做基本 diff 操作，最复杂的情况莫过于双方都有儿子的情况
 
   ```tsx
   const unmountChildren = (children) => {
@@ -1549,9 +1559,9 @@ const patchElement = (n1, n2) => {
   const patchChildren = (n1, n2, el) => {
     const c1 = n1.children; // 新老儿子
     const c2 = n2.children;
-  
+
     // 老的有儿子 新的没儿子  新的有儿子老的没儿子  新老都有儿子  新老都是文本
-  
+
     const prevShapeFlag = n1.shapeFlag;
     const shapeFlag = n2.shapeFlag; // 分别标识过儿子的状况
     if (shapeFlag & ShapeFlags.TEXT_CHILDREN) {
@@ -1572,7 +1582,7 @@ const patchElement = (n1, n2) => {
         if (shapeFlag & ShapeFlags.ARRAY_CHILDREN) {
           // 当前是数组 之前是数组
           // 两个数组的比对  -》 diff算法  ***********************
-  
+
           patchKeyedChildren(c1, c2, el);
         } else {
           // 没有孩子  特殊情况 当前是null ， 删除掉老的
@@ -1592,28 +1602,18 @@ const patchElement = (n1, n2) => {
   };
   ```
 
-### 4.4.核心diff算法
+### 4.4.核心 diff 算法
 
 > 针对双方儿子都是数组的形式
 
 ```tsx
 const App = {
   render: (r) => {
-    return r.state.flag ?
-      h('div',
-        [
-      h('li', { key: 'A' }, 'A'),
-      h('li', { key: 'B' }, 'B')
-    ]
-       ) :
-    h('div',
-      [
-      h('li', { key: 'A' }, 'A'),
-      h('li', { key: 'B' }, 'B')
-    ]
-     )
-  }
-}
+    return r.state.flag
+      ? h('div', [h('li', { key: 'A' }, 'A'), h('li', { key: 'B' }, 'B')])
+      : h('div', [h('li', { key: 'A' }, 'A'), h('li', { key: 'B' }, 'B')]);
+  },
+};
 createApp(App).mount('#app');
 ```
 
@@ -1627,7 +1627,7 @@ createApp(App).mount('#app');
      let i = 0;
      let e1 = c1.length - 1;
      let e2 = c2.length - 1;
-   
+
      // sync from start
      while (i <= e1 && i <= e2) {
        // 有任何一方停止循环则直接跳出
@@ -1640,7 +1640,7 @@ createApp(App).mount('#app');
        }
        i++;
      }
-   }
+   };
    ```
 
 2. sync from end
@@ -1704,7 +1704,7 @@ createApp(App).mount('#app');
    1. `build key:index map for newChildren`
 
       ![image-20241121173356189](https://p.ipic.vip/1fy5jp.png)
-   
+
       ```tsx
       // 乱序比对
       let s1 = i;
@@ -1716,7 +1716,7 @@ createApp(App).mount('#app');
       ```
 
    2. `loop through old children left to be patched and try to patch`
-   
+
       ```tsx
       // 循环老的元素，看一下新的里面有没有 如果有说明要比较差异，没有要添加到列表中，老的有新的没有要删除
       const toBePatched = e2 - s2 + 1; // 新的总个数
@@ -1735,9 +1735,9 @@ createApp(App).mount('#app');
       ```
 
    3. move and mount
-   
+
       ![image-20241121173413654](https://p.ipic.vip/y0mqpt.png)
-      
+
       ```tsx
       // 获取最长递增子序列
       let increasingNewIndexSequence = getSequence(newIndexToOldIndexMap);
@@ -1764,7 +1764,7 @@ createApp(App).mount('#app');
 
 ### 4.5.最长递增子序列
 
-> Vue3采用最长递增子序列，求解不需要移动的元素有哪些
+> Vue3 采用最长递增子序列，求解不需要移动的元素有哪些
 
 ```js
 // 求最长递增子序列的个数（贪心算法+二分查找）
@@ -1843,13 +1843,13 @@ console.log(getSequence([2, 3, 1, 5, 6, 8, 7, 9, 4]));
 
 ![image-20241121173506168](https://p.ipic.vip/rznrjv.png)
 
-## 五.Vue3异步更新策略
+## 五.Vue3 异步更新策略
 
 ### 5.1.watchAPI
 
-> watchAPI的核心就是监控值的变化，值发生变化后调用对应回调函数
+> watchAPI 的核心就是监控值的变化，值发生变化后调用对应回调函数
 
-#### 1.同步watch
+#### 1.同步 watch
 
 ```tsx
 const state = reactive({ count: 0 });
@@ -1862,7 +1862,7 @@ watch(
 );
 ```
 
-> watchAPI根据传入的参数不同，有不同的调用方式
+> watchAPI 根据传入的参数不同，有不同的调用方式
 
 ```tsx
 // 核心属性flush怎么刷新 immediate是否立即调用
@@ -1895,18 +1895,21 @@ export function watch(source, cb, options) {
 }
 ```
 
-#### 2.异步watch
+#### 2.异步 watch
 
 > 多次进行更改操作，最终仅仅执行一次
 
 ```tsx
-const state = reactive({ name: 'pf' })
-watch(() => state.name, (newValue, oldValue) => {
-  console.log(newValue, oldValue); // xxx pf
-});
+const state = reactive({ name: 'pf' });
+watch(
+  () => state.name,
+  (newValue, oldValue) => {
+    console.log(newValue, oldValue); // xxx pf
+  }
+);
 setTimeout(() => {
-  state.name = 'ricardo'
-  state.name = 'xxx'
+  state.name = 'ricardo';
+  state.name = 'xxx';
 }, 1000);
 ```
 
@@ -1943,7 +1946,7 @@ function flushJobs() {
 
 ### 5.2.watchEffect
 
-> watchEffect是没有cb的watch，当数据变化后会重新执行source函数
+> watchEffect 是没有 cb 的 watch，当数据变化后会重新执行 source 函数
 
 ```tsx
 watchEffect(() => {
@@ -1986,7 +1989,7 @@ export function watchEffect(source) {
 }
 ```
 
-## 六.Vue3生命周期原理
+## 六.Vue3 生命周期原理
 
 ### 6.1.生命周期实现原理
 

@@ -1,6 +1,16 @@
 ---
-title: Vue 3 大文件分片上传的技术实现与优化
-description: 大文件上传
+layout:     post
+title:      "Vue 3 大文件分片上传的技术实现与优化"
+subtitle:   "大文件上传"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Vue3
+  - 大文件上传
+  - 性能优化
 ---
 
 > 在现代 Web 开发中，数据上传的需求日益增多，特别是在处理大规模数据时，传统的大文件上传方式已经难以满足高效、稳定的需求。本文将结合实际项目，详细介绍如何在 Vue 3 和 TypeScript 环境中实现大文件分片上传，并进行性能优化。
@@ -27,49 +37,49 @@ description: 大文件上传
 1. **文件切片**： 使用 `Blob.prototype.slice` 方法，将大文件切分为多个 10MB 的小块。每个切片都具有唯一的标识，确保了上传的完整性和正确性。文件秒传，即在服务端已经存在了上传的资源，所以当用户再次上传时会直接提示上传成功。文件秒传需要依赖上一步生成的 hash，即在上传前，先计算出文件 hash，并把 hash 发送给服务端进行验证，由于 hash 的唯一性，所以一旦服务端能找到 hash 相同的文件，则直接返回上传成功的信息即可。
 
    ```tsx
-   const CHUNK_SIZE = 10 * 1024 * 1024
+   const CHUNK_SIZE = 10 * 1024 * 1024;
 
    // 文件上传服务器
    async function submitUpload() {
      if (!file.value) {
-       ElMessage.error('Oops, 请您选择文件后再操作~~.')
-       return
+       ElMessage.error('Oops, 请您选择文件后再操作~~.');
+       return;
      }
 
      // 将文件切片
-     const chunks: IFileSlice[] = []
-     let cur = 0
+     const chunks: IFileSlice[] = [];
+     let cur = 0;
      while (cur < file.value.raw!.size) {
-       const slice = file.value.raw!.slice(cur, cur + CHUNK_SIZE)
+       const slice = file.value.raw!.slice(cur, cur + CHUNK_SIZE);
        chunks.push({
          chunk: slice,
-         size: slice.size
-       })
-       cur += CHUNK_SIZE
+         size: slice.size,
+       });
+       cur += CHUNK_SIZE;
      }
 
      // 计算hash
-     hash.value = await calculateHash(chunks)
+     hash.value = await calculateHash(chunks);
      fileChunks.value = chunks.map((item, index) => ({
        ...item,
        hash: `${hash.value}-${index}`,
-       progress: 0
-     }))
+       progress: 0,
+     }));
      // 校验文件是否已存在
      await fileStore.verifyFileAction({
        filename: file.value.name,
-       fileHash: hash.value
-     })
-     const { exists } = storeToRefs(fileStore)
+       fileHash: hash.value,
+     });
+     const { exists } = storeToRefs(fileStore);
      if (!exists.value) {
        await uploadChunks({
          chunks,
          hash: hash.value,
          totalChunksCount: fileChunks.value.length,
-         uploadedChunks: 0
-       })
+         uploadedChunks: 0,
+       });
      } else {
-       ElMessage.success('秒传: 文件上传成功')
+       ElMessage.success('秒传: 文件上传成功');
      }
    }
    ```
@@ -79,29 +89,29 @@ description: 大文件上传
    ```tsx
    // scheduler.ts
    export class Scheduler {
-     private queue: (() => Promise<void>)[] = []
-     private maxCount: number
-     private runCounts = 0
+     private queue: (() => Promise<void>)[] = [];
+     private maxCount: number;
+     private runCounts = 0;
 
      constructor(limit: number) {
-       this.maxCount = limit
+       this.maxCount = limit;
      }
 
      add(promiseCreator: () => Promise<void>) {
-       this.queue.push(promiseCreator)
-       this.run()
+       this.queue.push(promiseCreator);
+       this.run();
      }
 
      private run() {
        if (this.runCounts >= this.maxCount || this.queue.length === 0) {
-         return
+         return;
        }
-       this.runCounts++
-       const task = this.queue.shift()!
+       this.runCounts++;
+       const task = this.queue.shift()!;
        task().finally(() => {
-         this.runCounts--
-         this.run()
-       })
+         this.runCounts--;
+         this.run();
+       });
      }
    }
 
@@ -112,20 +122,20 @@ description: 大文件上传
      hash,
      totalChunksCount,
      uploadedChunks,
-     limit = 3
+     limit = 3,
    }: IUploadChunkParams) {
-     const scheduler = new Scheduler(limit)
-     const totalChunks = chunks.length
-     let uploadedChunksCount = 0
+     const scheduler = new Scheduler(limit);
+     const totalChunks = chunks.length;
+     let uploadedChunksCount = 0;
 
      for (let i = 0; i < chunks.length; i++) {
-       const { chunk } = chunks[i]
+       const { chunk } = chunks[i];
 
-       let h = ''
+       let h = '';
        if (chunks[i].hash) {
-         h = chunks[i].hash as string
+         h = chunks[i].hash as string;
        } else {
-         h = `${hash}-${chunks.indexOf(chunks[i])}`
+         h = `${hash}-${chunks.indexOf(chunks[i])}`;
        }
 
        const params = {
@@ -133,54 +143,54 @@ description: 大文件上传
          hash: h,
          fileHash: hash,
          filename: file.value?.name as string,
-         size: file.value?.size
-       } as IUploadChunkControllerParams
+         size: file.value?.size,
+       } as IUploadChunkControllerParams;
 
        scheduler.add(() => {
-         const controller = new AbortController()
-         controllersMap.set(i, controller)
-         const { signal } = controller
+         const controller = new AbortController();
+         controllersMap.set(i, controller);
+         const { signal } = controller;
 
-         console.log(`开始上传切片 ${i}`)
+         console.log(`开始上传切片 ${i}`);
          if (!upload.value) {
-           return Promise.reject('上传暂停')
+           return Promise.reject('上传暂停');
          }
 
          return fileStore
            .uploadChunkAction(params, onTick, i, signal)
            .then(() => {
-             console.log(`完成切片的上传 ${i}`)
-             uploadedChunksCount++
+             console.log(`完成切片的上传 ${i}`);
+             uploadedChunksCount++;
              // 判断所有切片都已上传完成后，调用mergeRequest方法
              if (uploadedChunksCount === totalChunks) {
-               mergeRequest()
+               mergeRequest();
              }
            })
            .catch((error) => {
              if (error.name === 'AbortError') {
-               console.log('上传被取消')
+               console.log('上传被取消');
              } else {
-               throw error
+               throw error;
              }
            })
            .finally(() => {
              // 完成后将控制器从map中移除
-             controllersMap.delete(i)
-           })
-       })
+             controllersMap.delete(i);
+           });
+       });
      }
 
      function onTick(index: number, percent: number) {
-       chunks[index].percentage = percent
+       chunks[index].percentage = percent;
 
        const newChunksProgress = chunks.reduce(
          (sum, chunk) => sum + (chunk.percentage || 0),
          0
-       )
+       );
        const totalProgress =
-         (newChunksProgress + uploadedChunks * 100) / totalChunksCount
+         (newChunksProgress + uploadedChunks * 100) / totalChunksCount;
 
-       file.value!.percentage = Number(totalProgress.toFixed(2))
+       file.value!.percentage = Number(totalProgress.toFixed(2));
      }
    }
    ```
@@ -189,62 +199,62 @@ description: 大文件上传
 
    ```tsx
    // hash.ts
-   import SparkMD5 from 'spark-md5'
-   const ctx: Worker = self as any
+   import SparkMD5 from 'spark-md5';
+   const ctx: Worker = self as any;
    ctx.onmessage = (e) => {
      // 接收主线程的通知
-     const { chunks } = e.data
-     const blob = new Blob(chunks)
-     const spark = new SparkMD5.ArrayBuffer()
-     const reader = new FileReader()
+     const { chunks } = e.data;
+     const blob = new Blob(chunks);
+     const spark = new SparkMD5.ArrayBuffer();
+     const reader = new FileReader();
 
      reader.onload = (e) => {
-       spark.append(e.target?.result as ArrayBuffer)
-       const hash = spark.end()
+       spark.append(e.target?.result as ArrayBuffer);
+       const hash = spark.end();
        ctx.postMessage({
          progress: 100,
-         hash
-       })
-     }
+         hash,
+       });
+     };
      reader.onerror = (e: any) => {
        ctx.postMessage({
-         error: e.message
-       })
-     }
+         error: e.message,
+       });
+     };
      reader.onprogress = (e) => {
        if (e.lengthComputable) {
-         const progress = (e.loaded / e.total) * 100
+         const progress = (e.loaded / e.total) * 100;
          ctx.postMessage({
-           progress
-         })
+           progress,
+         });
        }
-     }
+     };
      // 读取Blob对象的内容
-     reader.readAsArrayBuffer(blob)
-   }
+     reader.readAsArrayBuffer(blob);
+   };
    ctx.onerror = (e) => {
      ctx.postMessage({
-       error: e.message
-     })
-   }
+       error: e.message,
+     });
+   };
 
    // UploadFile.vue
    // 使用Web Worker进行hash计算的函数
    function calculateHash(fileChunks: IFileSlice[]): Promise<string> {
      return new Promise<string>((resolve, reject) => {
-       const worker = new HashWorker()
-       worker.postMessage({ chunks: fileChunks })
+       const worker = new HashWorker();
+       worker.postMessage({ chunks: fileChunks });
        worker.onmessage = (e) => {
-         const { hash } = e.data
+         const { hash } = e.data;
          if (hash) {
-           resolve(hash)
+           resolve(hash);
          }
-       }
+       };
        worker.onerror = (event) => {
-         worker.terminate()
-         reject(event.error)
-       }
-     })
+         worker.terminate();
+         reject(event.error);
+       };
+     });
    }
    ```
 
@@ -253,34 +263,34 @@ description: 大文件上传
    ```tsx
    // 上传暂停和继续
    async function handlePause() {
-     upload.value = !upload.value
+     upload.value = !upload.value;
      if (upload.value) {
        // 校验文件是否已存在
        if (!file.value?.name) {
-         return
+         return;
        }
        await fileStore.verifyFileAction({
          filename: file.value.name,
-         fileHash: hash.value
-       })
-       const { exists, existsList } = storeToRefs(fileStore)
+         fileHash: hash.value,
+       });
+       const { exists, existsList } = storeToRefs(fileStore);
        const newChunks = fileChunks.value.filter((item) => {
-         return !existsList.value.includes(item.hash || '')
-       })
-       console.log('newChunks', newChunks)
+         return !existsList.value.includes(item.hash || '');
+       });
+       console.log('newChunks', newChunks);
        if (!exists.value) {
          await uploadChunks({
            chunks: newChunks,
            hash: hash.value,
            totalChunksCount: fileChunks.value.length,
-           uploadedChunks: fileChunks.value.length - newChunks.length
-         })
+           uploadedChunks: fileChunks.value.length - newChunks.length,
+         });
        } else {
-         ElMessage.success('秒传: 文件上传成功')
+         ElMessage.success('秒传: 文件上传成功');
        }
      } else {
-       console.log('暂停上传')
-       abortAll()
+       console.log('暂停上传');
+       abortAll();
      }
    }
    ```
@@ -295,172 +305,177 @@ description: 大文件上传
 
    ```tsx
    // verify.ts 校验文件是否存储
-   import { type Context } from 'koa'
+   import { type Context } from 'koa';
    import {
      type IUploadedFile,
      type GetFileControllerResponse,
      type IVefiryFileControllerParams,
-     type VefiryFileControllerResponse
-   } from '../utils/types'
-   import fileSizesStore from '../utils/fileSizesStore'
-   import { HttpError, HttpStatus } from '../utils/http-error'
+     type VefiryFileControllerResponse,
+   } from '../utils/types';
+   import fileSizesStore from '../utils/fileSizesStore';
+   import { HttpError, HttpStatus } from '../utils/http-error';
    import {
      UPLOAD_DIR,
      extractExt,
      getChunkDir,
      getUploadedList,
-     isValidString
-   } from '../utils'
-   import { IMiddleware } from 'koa-router'
-   import { Controller } from '../controller'
+     isValidString,
+   } from '../utils';
+   import { IMiddleware } from 'koa-router';
+   import { Controller } from '../controller';
 
-   import path from 'path'
-   import fse from 'fs-extra'
+   import path from 'path';
+   import fse from 'fs-extra';
 
    const fnVerify: IMiddleware = async (
      ctx: Context,
      next: () => Promise<void>
    ) => {
      const { filename, fileHash } = ctx.request
-       .body as IVefiryFileControllerParams
+       .body as IVefiryFileControllerParams;
      if (!isValidString(fileHash)) {
-       throw new HttpError(HttpStatus.PARAMS_ERROR, 'fileHash 不能为空')
+       throw new HttpError(HttpStatus.PARAMS_ERROR, 'fileHash 不能为空');
      }
      if (!isValidString(filename)) {
-       throw new HttpError(HttpStatus.PARAMS_ERROR, 'filename 不能为空')
+       throw new HttpError(HttpStatus.PARAMS_ERROR, 'filename 不能为空');
      }
-     const ext = extractExt(filename!)
-     const filePath = path.resolve(UPLOAD_DIR, `${fileHash}${ext}`)
-     let isExist = false
-     let existsList: string[] = []
+     const ext = extractExt(filename!);
+     const filePath = path.resolve(UPLOAD_DIR, `${fileHash}${ext}`);
+     let isExist = false;
+     let existsList: string[] = [];
      if (fse.existsSync(filePath)) {
-       isExist = true
+       isExist = true;
      } else {
-       existsList = await getUploadedList(fileHash!)
+       existsList = await getUploadedList(fileHash!);
      }
      ctx.body = {
        code: 0,
-       data: { exists: isExist, existsList: existsList }
-     } as VefiryFileControllerResponse
+       data: { exists: isExist, existsList: existsList },
+     } as VefiryFileControllerResponse;
 
-     await next()
-   }
+     await next();
+   };
 
    // 获取所有已上传文件的接口
    const fnGetFile: IMiddleware = async (
      ctx: Context,
      next: () => Promise<void>
    ): Promise<void> => {
-     const files = await fse.readdir(UPLOAD_DIR).catch(() => [])
+     const files = await fse.readdir(UPLOAD_DIR).catch(() => []);
      const fileListPromises = files
        .filter((file) => !file.endsWith('.json'))
        .map(async (file) => {
-         const filePath = path.resolve(UPLOAD_DIR, file)
-         const stat = fse.statSync(filePath)
-         const ext = extractExt(file)
-         let fileHash = ''
-         let size = stat.size
+         const filePath = path.resolve(UPLOAD_DIR, file);
+         const stat = fse.statSync(filePath);
+         const ext = extractExt(file);
+         let fileHash = '';
+         let size = stat.size;
          if (file.includes('chunkDir_')) {
-           fileHash = file.slice('chunkDir_'.length)
-           const chunkDir = getChunkDir(fileHash)
-           const chunks = await fse.readdir(chunkDir)
-           let totalSize = 0
+           fileHash = file.slice('chunkDir_'.length);
+           const chunkDir = getChunkDir(fileHash);
+           const chunks = await fse.readdir(chunkDir);
+           let totalSize = 0;
            for (const chunk of chunks) {
-             const chunkPath = path.resolve(chunkDir, chunk)
-             const stat = await fse.stat(chunkPath)
-             totalSize += stat.size
+             const chunkPath = path.resolve(chunkDir, chunk);
+             const stat = await fse.stat(chunkPath);
+             totalSize += stat.size;
            }
-           size = totalSize
+           size = totalSize;
          } else {
-           fileHash = file.slice(0, file.length - ext.length)
+           fileHash = file.slice(0, file.length - ext.length);
          }
-         const total = await fileSizesStore.getFileSize(fileHash)
+         const total = await fileSizesStore.getFileSize(fileHash);
          return {
            name: file,
            uploadedSize: size,
            totalSize: total,
            time: stat.mtime.toISOString(),
-           hash: fileHash
-         } as IUploadedFile
-       })
-     const fileList = await Promise.all(fileListPromises)
+           hash: fileHash,
+         } as IUploadedFile;
+       });
+     const fileList = await Promise.all(fileListPromises);
      ctx.body = {
        code: 0,
-       data: { files: fileList }
-     } as GetFileControllerResponse
+       data: { files: fileList },
+     } as GetFileControllerResponse;
 
-     await next()
-   }
+     await next();
+   };
 
    const controllers: Controller[] = [
      {
        method: 'POST',
        path: '/api/verify',
-       fn: fnVerify
+       fn: fnVerify,
      },
      {
        method: 'GET',
        path: '/api/files',
-       fn: fnGetFile
-     }
-   ]
+       fn: fnGetFile,
+     },
+   ];
 
-   export default controllers
+   export default controllers;
    ```
 
    ```tsx
    // upload.ts 上传切片
-   import { IMiddleware } from 'koa-router'
-   import { UPLOAD_DIR, extractExt, getChunkDir, isValidString } from '../utils'
-   import fileSizesStore from '../utils/fileSizesStore'
-   import { HttpError, HttpStatus } from '../utils/http-error'
+   import { IMiddleware } from 'koa-router';
+   import {
+     UPLOAD_DIR,
+     extractExt,
+     getChunkDir,
+     isValidString,
+   } from '../utils';
+   import fileSizesStore from '../utils/fileSizesStore';
+   import { HttpError, HttpStatus } from '../utils/http-error';
    import {
      type IUploadChunkControllerParams,
-     type UploadChunkControllerResponse
-   } from '../utils/types'
-   import path from 'path'
-   import fse from 'fs-extra'
-   import { Controller } from '../controller'
-   import { Context } from 'koa'
-   import koaBody from 'koa-body'
+     type UploadChunkControllerResponse,
+   } from '../utils/types';
+   import path from 'path';
+   import fse from 'fs-extra';
+   import { Controller } from '../controller';
+   import { Context } from 'koa';
+   import koaBody from 'koa-body';
 
    const fnUpload: IMiddleware = async (
      ctx: Context,
      next: () => Promise<void>
    ) => {
      const { filename, fileHash, hash, size } = ctx.request
-       .body as IUploadChunkControllerParams
+       .body as IUploadChunkControllerParams;
 
-     const chunkFile = ctx.request.files?.chunk
+     const chunkFile = ctx.request.files?.chunk;
      if (!chunkFile || Array.isArray(chunkFile)) {
-       throw new Error(`无效的块文件参数`)
+       throw new Error(`无效的块文件参数`);
      }
-     const chunk = await fse.readFile(chunkFile.filepath)
+     const chunk = await fse.readFile(chunkFile.filepath);
      if (!isValidString(fileHash)) {
-       throw new HttpError(HttpStatus.PARAMS_ERROR, 'fileHash 不能为空: ')
+       throw new HttpError(HttpStatus.PARAMS_ERROR, 'fileHash 不能为空: ');
      }
      if (isValidString(chunk)) {
-       throw new HttpError(HttpStatus.PARAMS_ERROR, 'chunk 不能为空')
+       throw new HttpError(HttpStatus.PARAMS_ERROR, 'chunk 不能为空');
      }
      if (!isValidString(filename)) {
-       throw new HttpError(HttpStatus.PARAMS_ERROR, 'filename 不能为空')
+       throw new HttpError(HttpStatus.PARAMS_ERROR, 'filename 不能为空');
      }
      const params = {
        filename,
        fileHash,
        hash,
        chunk,
-       size
-     } as IUploadChunkControllerParams
+       size,
+     } as IUploadChunkControllerParams;
 
-     fileSizesStore.storeFileSize(fileHash, size)
-     const ext = extractExt(params.filename!)
-     const filePath = path.resolve(UPLOAD_DIR, `${fileHash}${ext}`)
-     const chunkDir = getChunkDir(params.fileHash!)
-     const chunkPath = path.resolve(chunkDir, params.hash!)
+     fileSizesStore.storeFileSize(fileHash, size);
+     const ext = extractExt(params.filename!);
+     const filePath = path.resolve(UPLOAD_DIR, `${fileHash}${ext}`);
+     const chunkDir = getChunkDir(params.fileHash!);
+     const chunkPath = path.resolve(chunkDir, params.hash!);
      // 切片目录不存在，创建切片目录
      if (!(await fse.pathExists(chunkDir))) {
-       await fse.mkdir(chunkDir, { recursive: true })
+       await fse.mkdir(chunkDir, { recursive: true });
      }
 
      // 文件存在直接返回
@@ -468,56 +483,61 @@ description: 大文件上传
        ctx.body = {
          code: 1,
          message: 'file exist',
-         data: { hash: fileHash }
-       } as UploadChunkControllerResponse
-       return
+         data: { hash: fileHash },
+       } as UploadChunkControllerResponse;
+       return;
      }
      // 切片存在直接返回
      if (await fse.pathExists(chunkPath)) {
        ctx.body = {
          code: 2,
          message: 'chunk exist',
-         data: { hash: fileHash }
-       } as UploadChunkControllerResponse
-       return
+         data: { hash: fileHash },
+       } as UploadChunkControllerResponse;
+       return;
      }
-     await fse.move(chunkFile.filepath, `${chunkDir}/${hash}`)
+     await fse.move(chunkFile.filepath, `${chunkDir}/${hash}`);
      ctx.body = {
        code: 0,
        message: 'received file chunk',
-       data: { hash: params.fileHash }
-     } as UploadChunkControllerResponse
+       data: { hash: params.fileHash },
+     } as UploadChunkControllerResponse;
 
-     await next()
-   }
+     await next();
+   };
 
    const controllers: Controller[] = [
      {
        method: 'POST',
        path: '/api/upload',
        fn: fnUpload,
-       middleware: [koaBody({ multipart: true })]
-     }
-   ]
+       middleware: [koaBody({ multipart: true })],
+     },
+   ];
 
-   export default controllers
+   export default controllers;
    ```
 
 2. **切片合并**： 当所有切片上传完成后，后端会根据前端传来的请求对切片进行合并。这里使用了 Node.js 的 Stream 进行并发写入，提高了合并效率，并减少了内存占用。
 
    ```tsx
    // merge.ts
-   import { UPLOAD_DIR, extractExt, getChunkDir, isValidString } from '../utils'
-   import { HttpError, HttpStatus } from '../utils/http-error'
+   import {
+     UPLOAD_DIR,
+     extractExt,
+     getChunkDir,
+     isValidString,
+   } from '../utils';
+   import { HttpError, HttpStatus } from '../utils/http-error';
    import type {
      IMergeChunksControllerParams,
-     MergeChunksControllerResponse
-   } from '../utils/types'
-   import path from 'path'
-   import fse from 'fs-extra'
-   import { IMiddleware } from 'koa-router'
-   import { Controller } from '../controller'
-   import { Context } from 'koa'
+     MergeChunksControllerResponse,
+   } from '../utils/types';
+   import path from 'path';
+   import fse from 'fs-extra';
+   import { IMiddleware } from 'koa-router';
+   import { Controller } from '../controller';
+   import { Context } from 'koa';
 
    // 写入文件流
    const pipeStream = (
@@ -525,26 +545,26 @@ description: 大文件上传
      writeStream: NodeJS.WritableStream
    ): Promise<boolean> => {
      return new Promise((resolve) => {
-       const readStream = fse.createReadStream(filePath)
+       const readStream = fse.createReadStream(filePath);
        readStream.on('end', () => {
-         fse.unlinkSync(filePath)
-         resolve(true)
-       })
-       readStream.pipe(writeStream)
-     })
-   }
+         fse.unlinkSync(filePath);
+         resolve(true);
+       });
+       readStream.pipe(writeStream);
+     });
+   };
 
    const mergeFileChunk = async (
      filePath: string,
      fileHash: string,
      size: number
    ) => {
-     const chunkDir = getChunkDir(fileHash)
-     const chunkPaths = await fse.readdir(chunkDir)
+     const chunkDir = getChunkDir(fileHash);
+     const chunkPaths = await fse.readdir(chunkDir);
      // 切片排序
      chunkPaths.sort((a, b) => {
-       return a.split('-')[1] - b.split('-')[1]
-     })
+       return a.split('-')[1] - b.split('-')[1];
+     });
      // 写入文件
      await Promise.all(
        chunkPaths.map((chunkPath, index) =>
@@ -552,48 +572,48 @@ description: 大文件上传
            path.resolve(chunkDir, chunkPath),
            // 根据 size 在指定位置创建可写流
            fse.createWriteStream(filePath, {
-             start: index * size
+             start: index * size,
            })
          )
        )
-     )
+     );
      // 合并后删除保存切片的目录
-     fse.rmdirSync(chunkDir)
-   }
+     fse.rmdirSync(chunkDir);
+   };
 
    const fnMerge: IMiddleware = async (
      ctx: Context,
      next: () => Promise<void>
    ) => {
      const { filename, fileHash, size } = ctx.request
-       .body as IMergeChunksControllerParams
+       .body as IMergeChunksControllerParams;
      if (!isValidString(fileHash)) {
-       throw new HttpError(HttpStatus.PARAMS_ERROR, 'fileHash 不能为空: ')
+       throw new HttpError(HttpStatus.PARAMS_ERROR, 'fileHash 不能为空: ');
      }
      if (!isValidString(filename)) {
-       throw new HttpError(HttpStatus.PARAMS_ERROR, 'filename 不能为空')
+       throw new HttpError(HttpStatus.PARAMS_ERROR, 'filename 不能为空');
      }
-     const ext = extractExt(filename!)
-     const filePath = path.resolve(UPLOAD_DIR, `${fileHash}${ext}`)
-     await mergeFileChunk(filePath, fileHash!, size!)
+     const ext = extractExt(filename!);
+     const filePath = path.resolve(UPLOAD_DIR, `${fileHash}${ext}`);
+     await mergeFileChunk(filePath, fileHash!, size!);
      ctx.body = {
        code: 0,
        message: 'file merged success',
-       data: { hash: fileHash }
-     } as MergeChunksControllerResponse
+       data: { hash: fileHash },
+     } as MergeChunksControllerResponse;
 
-     await next()
-   }
+     await next();
+   };
 
    const controllers: Controller[] = [
      {
        method: 'POST',
        path: '/api/merge',
-       fn: fnMerge
-     }
-   ]
+       fn: fnMerge,
+     },
+   ];
 
-   export default controllers
+   export default controllers;
    ```
 
 3. **全局异常处理与日志记录**： 为了保证系统的稳定性，服务端实现了全局异常处理和日志记录功能，确保在出现问题时能快速定位并修复。

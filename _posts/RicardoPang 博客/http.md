@@ -1,6 +1,14 @@
 ---
-title: HTTP
-description: HTTP协议和TCP协议
+layout:     post
+title:      "HTTP协议和TCP协议"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - HTTP
+  - TCP
 ---
 
 # HTTP协议和TCP协议

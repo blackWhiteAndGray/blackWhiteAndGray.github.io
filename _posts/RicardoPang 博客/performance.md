@@ -1,6 +1,17 @@
 ---
-title: 前端性能优化
-description: 浏览器渲染流程简介
+layout:     post
+title:      "前端性能优化"
+subtitle:   "浏览器渲染流程简介"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Performance
+  - Browser
+  - Rendering
+  - Optimization
 ---
 
 > 性能优化是把双刃剑，有好的一面也有坏的一面。好的一面就是能提升网站性能，坏的一面就是配置麻烦，或者要遵守的规则太多。并且某些性能优化规则并不适用所有场景，需要谨慎使用。

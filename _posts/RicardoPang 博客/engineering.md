@@ -1,6 +1,20 @@
 ---
-title: 前端工程化
-description: Eslint+Prettier+husky+commitlint+lint+staged规范前端工程代码规范
+layout:     post
+title:      "前端工程化"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Engineering
+  - Vue
+  - Prettier
+  - Eslint
+  - husky
+  - commitlint
+  - lint
+  - staged
 ---
 
 > 记录自己的前端工作流，总结一份自己的前端工作流搭建流程，方便以后使用，创建一个简单的模板。

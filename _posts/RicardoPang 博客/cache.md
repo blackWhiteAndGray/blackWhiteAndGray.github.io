@@ -1,6 +1,14 @@
 ---
-title: 前端缓存
-description: 协商缓存和强制缓存
+layout:     post
+title:      "前端缓存"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Cache
+  - HTTP
 ---
 
 ## 1. 缓存作用

@@ -1,6 +1,13 @@
 ---
-title: Git 代码回滚
-description: 回滚代码的正确姿势
+layout:     post
+title:      "Git 代码回滚"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Git
 ---
 
 > 并不适合阅读的个人文档。

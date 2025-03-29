@@ -1,6 +1,16 @@
 ---
-title: 移动端适配
-description: mobile
+layout:     post
+title:      "移动端适配"
+subtitle:   "移动适配"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - Mobile
+  - Responsive
+  - Viewport
 ---
 
 ## 1. 屏幕尺寸

@@ -1,6 +1,15 @@
 ---
-title: 前端脚手架
-description: 自定义脚手架开发
+layout:     post
+title:      "前端脚手架"
+date:       2025-03-30
+author:     "ZhuLang"
+header-img: "img/bg-little-universe.jpg"
+catalog: true
+tags:
+  - Web
+  - CLI
+  - 脚手架
+  - 代码效率
 ---
 
 > 核心目标：提升前端研发效能
