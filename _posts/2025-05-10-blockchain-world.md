@@ -2,7 +2,7 @@
 layout: post
 title: '走进区块链的世界'
 subtitle: 'Web3入门'
-date: 2025-03-31
+date: 2025-05-10
 author: 'ZhuLang'
 header-img: 'img/bg-little-universe.jpg'
 catalog: true
@@ -14,13 +14,13 @@ tags:
   - 入门指南
 ---
 
-# 走进区块链的世界 | Web3入门指南
+# 走进区块链的世界 | Web3 入门指南
 
-> 💡 **你是不是也有这样的困惑？**想进入Web3世界却不知从何下手？域名、部署、连接前端...这些专业术语让你望而却步？别担心，这篇保姆级教程将手把手带你入门！
+> 💡 **你是不是也有这样的困惑？**想进入 Web3 世界却不知从何下手？域名、部署、连接前端...这些专业术语让你望而却步？别担心，这篇保姆级教程将手把手带你入门！
 
-## 一、域名管理：你的Web3身份证
+## 一、域名管理：你的 Web3 身份证
 
-在数字世界，域名就像你的网络身份证。选择一个好域名，是你迈向Web3的第一步。
+在数字世界，域名就像你的网络身份证。选择一个好域名，是你迈向 Web3 的第一步。
 
 ### 1. 如何选择最适合你的域名注册商？
 
@@ -28,72 +28,72 @@ tags:
 
 ![Porkbun示意图](https://p.ipic.vip/y6m9o3.png)
 
-**为什么选择Porkbun？**
+**为什么选择 Porkbun？**
 
 - 💰 首年价格低至几美元，性价比极高
-- 🔒 免费WHOIS隐私保护，守护你的个人信息
-- 🌐 支持超过300种域名后缀，选择多样
+- 🔒 免费 WHOIS 隐私保护，守护你的个人信息
+- 🌐 支持超过 300 种域名后缀，选择多样
 - 💻 界面简洁现代，新手也能轻松上手
 
-**[👉 点击访问Porkbun](https://porkbun.com/)**
+**[👉 点击访问 Porkbun](https://porkbun.com/)**
 
 #### Namesilo：追求稳定的明智之选
 
-**Namesilo的独特优势：**
+**Namesilo 的独特优势：**
 
-- 📉 低廉稳定的续费价格（.com域名续费约8.99美元）
+- 📉 低廉稳定的续费价格（.com 域名续费约 8.99 美元）
 - 📋 透明定价策略，无隐藏费用
-- 🛡️ 终身免费的WHOIS隐私保护
+- 🛡️ 终身免费的 WHOIS 隐私保护
 - 🧰 虽然界面老旧，但功能简单直接
 
-**[👉 点击访问Namesilo](https://www.namesilo.com/)**
+**[👉 点击访问 Namesilo](https://www.namesilo.com/)**
 
-> **小贴士**：预算有限？Porkbun或Namesilo是你最经济的选择，既提供低廉的价格，又有免费的隐私保护。
+> **小贴士**：预算有限？Porkbun 或 Namesilo 是你最经济的选择，既提供低廉的价格，又有免费的隐私保护。
 
 ### 2. 域名解析：让你的网站被世界看见
 
-接下来，我们需要将域名与Cloudflare绑定，这样才能让你的网站被全球用户访问。
+接下来，我们需要将域名与 Cloudflare 绑定，这样才能让你的网站被全球用户访问。
 
-#### Cloudflare设置指南（以Porkbun为例）
+#### Cloudflare 设置指南（以 Porkbun 为例）
 
-**第一步：添加域名到Cloudflare**
+**第一步：添加域名到 Cloudflare**
 
-1. 登录Cloudflare，进入后台界面
+1. 登录 Cloudflare，进入后台界面
 2. 点击添加域名按钮
 
 ![添加域名到Cloudflare](https://p.ipic.vip/y6m9o3.png)
 
 **第二步：输入你的域名**
 
-1. 填入你在Porkbun购买的域名（注意：只需输入主域名，如baidu.com）
+1. 填入你在 Porkbun 购买的域名（注意：只需输入主域名，如 baidu.com）
 2. 直接点击"继续"进入下一步
 
 ![输入域名](https://p.ipic.vip/i261oo.jpg)
 
 **第三步：选择免费计划**
 
-直接选择底部的Free计划，零成本享受Cloudflare的基础服务。
+直接选择底部的 Free 计划，零成本享受 Cloudflare 的基础服务。
 
 ![选择Free计划](https://p.ipic.vip/aap4j0.png)
 
-**第四步：跳过DNS记录确认**
+**第四步：跳过 DNS 记录确认**
 
-不用管DNS记录页面，直接拉到最下方，点击"继续前往激活"。
+不用管 DNS 记录页面，直接拉到最下方，点击"继续前往激活"。
 
 ![DNS记录确认](https://p.ipic.vip/xa9966.jpg)
 
-**第五步：获取Cloudflare名称服务器**
+**第五步：获取 Cloudflare 名称服务器**
 
-记下页面中显示的两个服务器地址，我们需要将它们添加到Porkbun中。
+记下页面中显示的两个服务器地址，我们需要将它们添加到 Porkbun 中。
 
 ![获取Cloudflare名称服务器](https://p.ipic.vip/oys8vo.jpg)
 
-**第六步：更新Porkbun中的名称服务器**
+**第六步：更新 Porkbun 中的名称服务器**
 
-1. 在Porkbun中找到你的域名
-2. 点击NS管理
-3. 删除原有的NS记录
-4. 添加从Cloudflare获取的两个服务器地址
+1. 在 Porkbun 中找到你的域名
+2. 点击 NS 管理
+3. 删除原有的 NS 记录
+4. 添加从 Cloudflare 获取的两个服务器地址
 5. 保存更改
 
 ![Porkbun更新名称服务器步骤1](https://p.ipic.vip/0qwgnw.png)
@@ -102,36 +102,36 @@ tags:
 
 **耐心等待生效**
 
-完成名称服务器修改后，回到Cloudflare点击"继续"，然后点击"立即检查名称服务器"。
+完成名称服务器修改后，回到 Cloudflare 点击"继续"，然后点击"立即检查名称服务器"。
 
-系统会自动验证你的修改是否生效。通常需要10-20分钟才能完全生效，Cloudflare会通过邮件通知你绑定成功。
+系统会自动验证你的修改是否生效。通常需要 10-20 分钟才能完全生效，Cloudflare 会通过邮件通知你绑定成功。
 
 ![检查名称服务器](https://p.ipic.vip/axwjd2.png)
 
-当Cloudflare后台显示"活动"状态时，表示域名已成功绑定。
+当 Cloudflare 后台显示"活动"状态时，表示域名已成功绑定。
 
 ![确认激活状态](https://p.ipic.vip/jd4mxe.jpg)
 
-## 二、Cloudflare部署：让你的网站瞬间上线
+## 二、Cloudflare 部署：让你的网站瞬间上线
 
-有了域名，现在我们需要一个地方来存放网站内容。Cloudflare Pages提供了免费且强大的网站托管服务。
+有了域名，现在我们需要一个地方来存放网站内容。Cloudflare Pages 提供了免费且强大的网站托管服务。
 
-### 从GitHub到Cloudflare的无缝部署
+### 从 GitHub 到 Cloudflare 的无缝部署
 
-**第一步：准备你的GitHub仓库**
+**第一步：准备你的 GitHub 仓库**
 
-首先确保你的项目已经推送到GitHub上。
+首先确保你的项目已经推送到 GitHub 上。
 
-**第二步：在Cloudflare创建Pages项目**
+**第二步：在 Cloudflare 创建 Pages 项目**
 
-1. 打开Cloudflare，点击左侧dashboard
-2. 找到Pages选项，点击"创建"
+1. 打开 Cloudflare，点击左侧 dashboard
+2. 找到 Pages 选项，点击"创建"
 
 ![Cloudflare Pages创建](https://p.ipic.vip/ivzkps.jpg)
 
-**第三步：连接GitHub**
+**第三步：连接 GitHub**
 
-点击"连接到git"，登录你的GitHub账户。
+点击"连接到 git"，登录你的 GitHub 账户。
 
 ![连接到GitHub](https://p.ipic.vip/xl3wge.jpg)
 
@@ -145,58 +145,58 @@ tags:
 
 ### 绑定自定义域名
 
-部署成功后，Cloudflare会自动分配一个域名给你。但使用我们自己的域名会更专业。
+部署成功后，Cloudflare 会自动分配一个域名给你。但使用我们自己的域名会更专业。
 
 **绑定步骤：**
 
-1. 在Pages列表中点击你的项目
+1. 在 Pages 列表中点击你的项目
 2. 选择"自定义域"
-3. 输入之前绑定到Cloudflare的域名
-4. 点击确定，Cloudflare会自动完成DNS设置
+3. 输入之前绑定到 Cloudflare 的域名
+4. 点击确定，Cloudflare 会自动完成 DNS 设置
 5. 当状态显示为"active"时，绑定成功
 
 ![设置自定义域名](https://p.ipic.vip/vtu3qd.jpg)
 
-### 配置SSL证书：保障网站安全
+### 配置 SSL 证书：保障网站安全
 
-为了确保网站安全，我们需要正确配置SSL证书。
+为了确保网站安全，我们需要正确配置 SSL 证书。
 
-**第一步：进入SSL设置**
+**第一步：进入 SSL 设置**
 
 1. 回到账户主页，点击你的域名
-2. 在左侧dashboard选择SSL
-3. 在overview中点击configure
+2. 在左侧 dashboard 选择 SSL
+3. 在 overview 中点击 configure
 
 ![SSL设置](https://p.ipic.vip/7tgsnv.png)
 
-**第二步：选择Full加密模式**
+**第二步：选择 Full 加密模式**
 
-默认是Flexible，我们需要修改为Full，然后保存。
+默认是 Flexible，我们需要修改为 Full，然后保存。
 
 ![设置SSL为Full](https://p.ipic.vip/7bpdfk.jpg)
 
-**第三步：启用HTTPS强制跳转**
+**第三步：启用 HTTPS 强制跳转**
 
-1. 在SSL部分，点击Edge Certificates
-2. 找到Always use HTTPS选项
+1. 在 SSL 部分，点击 Edge Certificates
+2. 找到 Always use HTTPS 选项
 3. 勾选启用
 
 ![开启Always use HTTPS](https://p.ipic.vip/yjo1kr.jpg)
 
-完成以上设置后，你的网站就已经成功部署，并且拥有了自定义域名和SSL加密保护！现在，你可以自豪地把网址分享给朋友们了。
+完成以上设置后，你的网站就已经成功部署，并且拥有了自定义域名和 SSL 加密保护！现在，你可以自豪地把网址分享给朋友们了。
 
-## 三、Workers连接前端：让你的网站更智能
+## 三、Workers 连接前端：让你的网站更智能
 
-想让网站拥有更强大的功能？Cloudflare Workers可以帮你实现前后端连接，比如接入AI聊天功能。
+想让网站拥有更强大的功能？Cloudflare Workers 可以帮你实现前后端连接，比如接入 AI 聊天功能。
 
-### 创建强大的Workers代码
+### 创建强大的 Workers 代码
 
-下面是一个云音乐AI助手的Workers代码示例：
+下面是一个云音乐 AI 助手的 Workers 代码示例：
 
 ```js
 /**
  * 云音乐AI助手 - DeepSeek-R1 API集成
- * 
+ *
  * 这个Worker有两个主要功能：
  * 1. 解决跨域问题(CORS)
  * 2. 连接DeepSeek-R1 API处理用户问题
@@ -413,13 +413,13 @@ addEventListener('fetch', (event) => {
 });
 ```
 
-### 部署到Cloudflare Workers
+### 部署到 Cloudflare Workers
 
-将上面的代码复制到[Cloudflare Workers编辑器](https://workers.cloudflare.com/playground)中，点击部署，即可获得一个功能强大的API端点。
+将上面的代码复制到[Cloudflare Workers 编辑器](https://workers.cloudflare.com/playground)中，点击部署，即可获得一个功能强大的 API 端点。
 
 ### 前端集成示例
 
-以下是将Workers API集成到前端React组件的示例代码：
+以下是将 Workers API 集成到前端 React 组件的示例代码：
 
 ```js
 // 组件加载时获取测试响应
@@ -514,15 +514,15 @@ const sendMessage = async () => {
 
 ## 四、进阶学习资源 📚
 
-想要深入学习Web3和区块链开发？这些资源将助你一臂之力：
+想要深入学习 Web3 和区块链开发？这些资源将助你一臂之力：
 
-1. [Cursor Hub](https://cursorhub.org/) - AI编程的最佳实践
-2. [AI编程蓝皮书2.0](https://superhuang.feishu.cn/wiki/CBBPwvgEuicVhFkx0s7cPmhpn4e) - 系统学习AI辅助编程
-3. [Cloudflare官网](https://dash.cloudflare.com/) - 全面了解Cloudflare生态
+1. [Cursor Hub](https://cursorhub.org/) - AI 编程的最佳实践
+2. [AI 编程蓝皮书 2.0](https://superhuang.feishu.cn/wiki/CBBPwvgEuicVhFkx0s7cPmhpn4e) - 系统学习 AI 辅助编程
+3. [Cloudflare 官网](https://dash.cloudflare.com/) - 全面了解 Cloudflare 生态
 4. [Cloudflare Workers](https://workers.cloudflare.com/playground) - 边学边练，快速掌握
 
-------
+---
 
-> **作者简介**：zhulang，Web3开发者，致力于简化区块链技术学习曲线，让更多人能够轻松进入Web3世界。
+> **作者简介**：zhulang，Web3 开发者，致力于简化区块链技术学习曲线，让更多人能够轻松进入 Web3 世界。
 
-**关注我，掌握更多Web3实用技能！**
+**关注我，掌握更多 Web3 实用技能！**
